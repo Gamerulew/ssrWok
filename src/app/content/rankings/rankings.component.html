@@ -1,0 +1,57 @@
+<section class="content">
+   <div class="container-fluid">
+      <div class="block-header">
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               <ul class="breadcrumb breadcrumb-style ">
+                  <li class="breadcrumb-item">
+                     <h4 class="page-title">General ranking</h4>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-1">
+                     <a [routerLink]="['/home']">
+                        <i class="fas fa-home"></i> Home</a>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-2">
+                     <a href="/rankings">Geral ranking</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <mat-tab-group>
+         <mat-tab label="Submission ranking">
+            <div class="row">
+               <div class="col-md-12">
+                  <mat-card class="example-card">
+                     <mat-card-header>
+                        <div mat-card-avatar class="example-header-image"></div>
+                        <mat-card-title><h6>Users exercises ranking</h6></mat-card-title>
+                        <mat-card-subtitle>General user submission rating</mat-card-subtitle>
+                     </mat-card-header>
+                     <mat-card-content>
+                        <wok-user-rank-grid rankFor="general"></wok-user-rank-grid>
+                     </mat-card-content>
+                  </mat-card>
+               </div>
+            </div>
+         </mat-tab>
+         <mat-tab label="Skills ranking">
+            <div class="row">
+               <div class="col-md-12">
+                  <mat-card class="example-card">
+                     <mat-card-header>
+                        <div mat-card-avatar class="example-header-image"></div>
+                        <mat-card-title><h6>Users skills ranking</h6></mat-card-title>
+                        <mat-card-subtitle>General user skill rating</mat-card-subtitle>
+                     </mat-card-header>
+                     <mat-card-content>
+                        <wok-user-skill-array-grid></wok-user-skill-array-grid>
+                     </mat-card-content>
+                  </mat-card>
+               </div>
+            </div>
+         </mat-tab>
+      </mat-tab-group>
+   </div>
+</section>
+

@@ -1,0 +1,102 @@
+<section class="content">
+   <div class="container-fluid">
+      <div class="block-header">
+         <div class="row">
+            <div class="col-12">
+               <ul class="breadcrumb breadcrumb-style ">
+                  <li class="breadcrumb-item">
+                     <h4 class="page-title">Contas</h4>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-1">
+                     <a [routerLink]="['/home']">
+                        <i class="fas fa-home"></i> Home</a>
+                  </li>
+                  <li class="breadcrumb-item active">Login</li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <wok-snack-bar></wok-snack-bar>
+      <div class="limiter">
+         <div class="container-login100">
+            <div class="wrap-login100">
+               <form class="login100-form validate-form" [formGroup]="loginForm" (ngSubmit)="login($event)">
+                  <span class="login100-form-title pb-5">Login</span>
+                  <div class="row">
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                           <mat-label>Username</mat-label>
+                           <input matInput name="username" id="username" formControlName="username" required />
+                           <mat-icon matSuffix>face</mat-icon>
+                           <mat-error *ngIf="loginForm.get('username')!.hasError('required')">
+                              User name is required.
+                           </mat-error>
+                        </mat-form-field>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                           <mat-label>Password</mat-label>
+                           <input matInput [type]="hide ? 'password' : 'text'" name="password" id="password"
+                                  formControlName="password">
+                           <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                                   [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                           </button>
+                           <mat-error *ngIf="loginForm.get('password')!.hasError('required')">
+                              Password is required.
+                           </mat-error>
+                        </mat-form-field>
+                     </div>
+                  </div>
+                  <div class="flex-sb-m w-full p-t-15 p-b-20">
+                     <div class="form-check">
+                        <label class="form-check-label">
+                           <input class="form-check-input" type="checkbox" value="" name="rememberMe"
+                                  id="rememberMe" formControlName="rememberMe">
+                           Remember me
+                           <span class="form-check-sign">
+                                <span class="check"></span></span>
+                        </label>
+                     </div>
+                     <div>
+                        <a class="txt1" [routerLink]="['/account/reset/request']">Forgot Password?</a>
+                     </div>
+                  </div>
+                  <div class="alert alert-success" role="alert" *ngIf="justSignedUp">
+                     Você precisa ativar sua conta
+                  </div>
+                  <div class="container-login100-form-btn">
+                     <button mat-flat-button color="primary" class="login100-form-btn" type="submit">
+                        Login
+                     </button>
+                  </div>
+                  <div class="text-center p-t-30 p-b-20">
+                        <span class="txt3">
+                            or <a [routerLink]="['/account/register']">sign up</a> using
+                        </span>
+                  </div>
+
+                  <div class="login100-form-social flex-c-m">
+<!--                       <span style="cursor: pointer;" (click)="signInWithGoogle()"-->
+<!--                             class="login100-form-social-item flex-c-m bg3 m-r-5">-->
+<!--                          <i class="fab fa-google"></i>-->
+<!--                       </span>-->
+                     <!--                  <span style='cursor: pointer;' (click)='authService.gitHubSignIn()'-->
+                     <!--                        class='login100-form-social-item flex-c-m bg-black m-r-5'>-->
+                     <!--                            <i class='fab fa-github'></i>-->
+                     <!--                        </span>-->
+<!--                     <span style="cursor: pointer;" (click)="signInWithFB()"-->
+<!--                           class="login100-form-social-item flex-c-m bg1 m-r-5">-->
+<!--                            <i class="fab fa-facebook-f"></i>-->
+<!--                        </span>-->
+                  </div>
+
+               </form>
+               <div class="login100-more" style="background-image: url('assets/images/pages/bg-01.png');"></div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

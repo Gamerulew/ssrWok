@@ -1,0 +1,11 @@
+<div>
+   <div class="card" hideToggle *ngFor="let arrayOption of array">
+      <div class="card-header">
+         <h6>
+            {{arrayOption?.alias?arrayOption?.alias:arrayOption?.name}}
+         </h6>
+      </div>
+      <wok-user-rank-grid *ngIf="arrayOption && arrayOption!.id && rankFor" [id]="arrayOption!.id" [rankFor]="rankFor"></wok-user-rank-grid>
+      <!--              <wok-user-module-rank-table *ngIf="module && module!.id" [moduleId]="module!.id"></wok-user-module-rank-table>-->
+   </div>
+</div>

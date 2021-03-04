@@ -1,0 +1,46 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                            <h4 class="page-title">Course detail</h4>
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a [routerLink]="['/home']">
+                                <i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item bcrumb-2">
+                            <a [routerLink]="['/courses']" >Course</a>
+                        </li>
+                        <li class="breadcrumb-item active">{{discipline === undefined ? "" : discipline!.name}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Your content goes here  -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="body">
+                       <h2 class="align-center">{{discipline === undefined ? "" : discipline!.name}}</h2>
+                       <div class="row justify-content-center">
+                          <div class="p-0 rounded-circle shadow-lg border">
+                             <img
+                                src="{{ sharedFunctions.imageDir + (discipline === undefined ? 'cursos/01-Introducao.png' : discipline!.imageUrl)}}"
+                                alt="" class="m-4">
+                          </div>
+                       </div>
+                       <hr>
+                       <p class="text-muted mt-3" [innerHTML]="discipline === undefined ? '' : discipline!.description">
+                       </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <wok-topic-timeline *ngIf="discipline" [topicByLevel]="topicByLevel"></wok-topic-timeline>
+            </div>
+        </div>
+    </div>
+</section>

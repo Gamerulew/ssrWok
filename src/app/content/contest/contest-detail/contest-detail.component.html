@@ -1,0 +1,60 @@
+<section class="content">
+   <div class="container-fluid">
+      <div class="block-header">
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               <ul class="breadcrumb breadcrumb-style ">
+                  <li class="breadcrumb-item">
+                     <h4 class="page-title">Course detail</h4>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-1">
+                     <a [routerLink]="['/home']">
+                        <i class="fas fa-home"></i> Home</a>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-2">
+                     <a [routerLink]="['/courses']">Course</a>
+                  </li>
+                  <li class="breadcrumb-item active">{{course === undefined ? "" : course!.name}}</li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <wok-snack-bar></wok-snack-bar>
+      <!-- Your content goes here  -->
+      <div class="row">
+         <div class="col-md-4">
+            <div class="card">
+               <div class="body">
+                  <h2 class="align-center">{{course === undefined ? "" : course!.name}}</h2>
+                  <div class="row justify-content-center">
+                     <div class="p-0 rounded-circle shadow-lg border">
+                        <img width="40"
+                           src="{{ sharedFunctions.imageDir + course?.teacher?.imageUrl}}"
+                           alt="" class="m-4">
+                     </div>
+                  </div>
+                  <hr>
+                  <p class="text-muted my-3">
+                     {{course === undefined ? "" : course!.description}}
+                  </p>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-8">
+            <div class="alert alert-info my-2" role="alert">
+               Clique em um tópico para se cadastrar, caso não tenha uma conta você precisará criar uma.
+            </div>
+            <mat-accordion *ngIf="course && (course!.modules && course!.modules!.length > 0)">
+               <mat-expansion-panel *ngFor="let module of course!.modules;  let i= index ;" [expanded]="course!.modules!.length===1" (opened)="getModuleTopics(i,module!.id)">
+                  <mat-expansion-panel-header>
+                     <mat-panel-title>
+                        {{module?.alias}}
+                     </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <wok-topics-tree *ngIf="module?.topicsM" [topicByLevel]="module?.topicsM" [courseId]="course?.id" [passcode]="course?.passcode"></wok-topics-tree>
+               </mat-expansion-panel>
+            </mat-accordion>
+         </div>
+      </div>
+   </div>
+</section>

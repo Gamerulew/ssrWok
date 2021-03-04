@@ -1,0 +1,80 @@
+<h2 class="m-2" mat-dialog-title>Sign in</h2>
+<mat-dialog-content class="mat-typography">
+   <div class="alert alert-warning my-2" role="alert" *ngIf="data">
+      Para fazer login você deve confirmar seu email.
+   </div>
+   <div class="alert alert-danger my-2" role="alert" *ngIf="registrationError">
+      Ocorreu um erro! Pode ser que você já esteja cadastrado nesse curso.
+   </div>
+   <div class="alert alert-danger" *ngIf="authenticationError">
+      <strong>Failed to sign in!</strong> Please check your credentials and try again.
+   </div>
+   <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+         <mat-label>Login</mat-label>
+         <input matInput type="text" name="username" id="username"
+                placeholder="{{ 'global.form.username.placeholder' | translate }}"
+                formControlName="username" #username>
+         <mat-icon matSuffix>face</mat-icon>
+         <mat-error *ngIf="loginForm.get('username')!.hasError('required')">User name is required.</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+         <mat-label>Password</mat-label>
+         <input formControlName="password" placeholder="{{ 'login.form.password.placeholder'}}" matInput
+                [type]="hide ? 'password' : 'text'">
+         <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                 [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+         </button>
+         <mat-error *ngIf="loginForm.get('password')!.hasError('required')">Password is required.</mat-error>
+      </mat-form-field>
+
+
+      <div class="form-check">
+         <section class="example-section float-left" style="display: inline;">
+            <mat-checkbox formControlName="rememberMe" class="example-margin"><span>Remember me</span></mat-checkbox>
+         </section>
+         <div class="float-right">
+            <a [routerLink]="['/account/reset/request']">Forgot password?</a>
+         </div>
+      </div>
+
+      <div class="row" style="clear:both;">
+         <div class="col-12">
+            <button type="submit" class="btn"
+                    style="background-color: #3f51b5; width: inherit; height: 55px; font-weight: bold; color: white;">
+               Sign in
+            </button>
+            <!-- <button type="button" class="btn btn-danger float-right" id="login.form.cancel" (click)="activeModal.dismiss('closed')">Cancel</button> -->
+         </div>
+      </div>
+      <div class="text-center p-t-30">
+            <span class="txt3">
+                or <span (click)="openRegisterDialog()" class="text-info" style="cursor: pointer;">sign up</span>
+            </span>
+      </div>
+      <!-- <div class="mt-3 alert alert-warning">
+          <a class="alert-link" (click)="requestResetPassword()" id="login.password.forgot">Did you forget your
+              password?</a>
+      </div> -->
+
+      <!-- <div class="alert alert-warning">
+          <span id="global.messages.info.register.noaccount">You don't have an account yet?</span>
+          <a class="alert-link" (click)="register()" id="global.messages.info.register.link">Register a new
+              account</a>
+      </div> -->
+   </form>
+
+
+</mat-dialog-content>
+
+
+<!--        <mat-form-field style="width: 100%;">-->
+<!--            <mat-label id="login.form.password">Password</mat-label>-->
+<!--            <input matInput type="password" name="password" id="password"-->
+<!--                   placeholder="{{ 'login.form.password.placeholder' | translate }}"-->
+<!--                   formControlName="password">-->
+<!--        </mat-form-field>-->

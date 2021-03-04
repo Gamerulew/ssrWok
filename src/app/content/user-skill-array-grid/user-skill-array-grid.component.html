@@ -1,0 +1,15 @@
+<div *ngIf="skills && skills.length > 0">
+   <div class="card" hideToggle *ngFor="let skill of skills">
+      <div class="card-header">
+         <h6>
+            {{skill.name}}
+         </h6>
+      </div>
+      <wok-user-skill-grid *ngIf="skill && skill?.slug" [slug]="skill?.slug"></wok-user-skill-grid>
+   </div>
+</div>
+<div *ngIf="!skills || skills.length === 0" class="text-center">
+   <img width="100"
+        src="https://static.dribbble.com/users/5397717/screenshots/11840627/media/6b0c979ac19a84634925bdc1159a115c.jpg">
+   <h6>No ranking</h6>
+</div>

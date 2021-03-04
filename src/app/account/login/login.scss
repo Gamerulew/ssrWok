@@ -1,0 +1,77 @@
+.login-body.layout-light .login-content .login-panel .login-panel-content .logo {
+  width: 100%;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.login-body.layout-light .login-content .login-panel {
+  background-color: rgba(216, 222, 233, 0.3);
+}
+
+.login-body.layout-light .login-content .login-panel .login-panel-content h1 {
+  color: #2e3440;
+  font-size: 42px;
+  font-weight: 100;
+  margin: 20px 0;
+}
+
+.login-body.layout-light .login-content .login-panel .login-panel-content p {
+  color: rgb(90, 101, 124);
+  font-size: 16px;
+  margin: 10px 0px 16px;
+  display: block;
+}
+
+.login-body.layout-light .login-content .login-panel .login-panel-content .forms .login-input-wrapper input {
+  background-color: rgb(255, 255, 255);
+  color: rgb(145, 153, 169);
+  border-color: rgb(204, 204, 204);
+  padding: 2px 16px 2px 16px;
+  margin: 0;
+}
+
+.login-body.layout-light .login-content .login-panel .login-panel-content .forms label {
+  color: rgb(76, 86, 106);
+  margin: 0;
+  font-size: 14px;
+}
+
+.login-body .login-content .login-panel .login-panel-content .forms .login-input-wrapper i {
+  position: absolute;
+  color: rgb(145, 153, 169);
+  right: 0.5em;
+  margin: 5px;
+}
+
+.login-body.layout-light .login-content .login-panel .login-panel-content .forms .buttons {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.login-body .login-content .login-panel .login-panel-content .buttons .ui-button {
+  margin-top: 14px;
+  min-width: 100px;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  padding: 6px 12px;
+}
+
+.login-body .login-content .login-panel .login-panel-content .buttons a.secondary-button {
+  font-size: 14px;
+  background-color: transparent;
+  color: rgb(145, 153, 169);
+}
+
+@media (max-width: 800px) {
+  .login-body .login-content .desert {
+    background-position: right;
+  }
+}

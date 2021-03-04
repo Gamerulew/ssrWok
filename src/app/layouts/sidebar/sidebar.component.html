@@ -1,0 +1,103 @@
+<div>
+   <!-- Left Sidebar -->
+   <aside id="leftsidebar" class="sidebar" (mouseenter)="mouseHover({e : $event})" (mouseleave)="mouseOut($event)">
+      <!-- Menu -->
+      <div class="menu">
+         <ul class="list"
+             [ngStyle]="{'position' : 'relative', 'max-height' : listMaxHeight+'px', 'max-width' : listMaxWidth+'px'}">
+
+            <li *ngIf="accountService.isAuthenticated()" class="sidebar-user-panel">
+               <div class="user-panel">
+                  <div class=" image text-center">
+                     <a [routerLink]="['/account/profile']" style="margin: 0px;padding: 0px;">
+                        <img (error)="showProfileImg = false;"
+                             src="{{showProfileImg?sharedFunctions.imageDir + accountService.getImageUrl():'https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png'}}"
+                             class="img-circle user-img-circle" alt="User Image" />
+                     </a>
+                  </div>
+               </div>
+               <div class="profile-usertitle">
+                  <div class="sidebar-userpic-name font-weight-bold">{{accountService.getFirstName()}}</div>
+                  <div class="profile-usertitle-job ">{{accountService.getLogin()}}</div>
+               </div>
+            </li>
+
+            <li>
+               <div class="header" id="sidebar.account.my-account">Sua Conta</div>
+            </li>
+            <li *ngIf="!accountService.isAuthenticated()">
+               <div>
+                  <a (click)="callMenuToggle($event, 'login',0)" [routerLink]="['/account/login']" class="menu-single">
+                     <i class="material-icons-two-tone">account_circle</i>
+                     <span class="hide-menu" id="sidebar.account.sign-in">Login</span>
+                  </a>
+               </div>
+            </li>
+            <li *ngIf="!accountService.isAuthenticated()">
+               <div>
+                  <a (click)="callMenuToggle($event, 'register',0)" [routerLink]="['/account/register']"
+                     class="menu-single">
+                     <i class="material-icons-two-tone">input</i>
+                     <span class="hide-menu" id="sidebar.account.sign-up">Cadastre-se</span>
+                  </a>
+               </div>
+            </li>
+            <li>
+               <div class="header" id="sidebar.content.menu">Conteudo</div>
+            </li>
+            <!-- First level menu -->
+            <li [class.active]="showMenu === sidebarItem.title" *ngFor="let sidebarItem of sidebarItems"
+                [routerLinkActive]="sidebarItem.submenu.length != 0 ? '' : 'active'">
+
+               <div *ngIf="(sidebarItem.Authority==undefined) || accountService.hasAnyAuthority(sidebarItem.Authority)">
+                  <div class="header" *ngIf="sidebarItem.groupTitle === true">
+                     <span class="hide-menu" id="sidebar.{{sidebarItem.title}}">{{sidebarItem.title}}</span>
+                  </div>
+                  <a [routerLink]="[sidebarItem.path]" [queryParams]="sidebarItem!.queryParams"
+                     *ngIf="sidebarItem.class === 'menu-single';" [ngClass]="[sidebarItem.class]"
+                     (click)="callMenuToggle($event, sidebarItem.title,sidebarItem.submenu.length)">
+                     <i [ngClass]="[sidebarItem.iconType]">{{sidebarItem.icon}}</i>
+                     <span class="hide-menu" id="sidebar.{{sidebarItem.title}}">{{sidebarItem.title}}</span>
+                  </a>
+
+                  <a [routerLink]="sidebarItem.class === '' ? sidebarItem.path : null"
+                     [queryParams]="sidebarItem!.queryParams"
+                     *ngIf="!sidebarItem.groupTitle && !(sidebarItem.class === 'menu-single');"
+                     [ngClass]="[sidebarItem.class]"
+                     (click)="callMenuToggle($event, sidebarItem.title,sidebarItem.submenu.length)">
+                     <i [ngClass]="[sidebarItem.iconType]">{{sidebarItem.icon}}</i>
+                     <span class="hide-menu" id="sidebar.{{sidebarItem.title}}">{{sidebarItem.title}}
+                        </span>
+                  </a>
+                  <!-- Second level menu -->
+                  <ul class="ml-menu" *ngIf="sidebarItem.submenu.length > 0">
+                     <li *ngFor="let sidebarSubItem of sidebarItem.submenu"
+                         [class.activeSub]="showSubMenu === sidebarSubItem.title"
+                         [routerLinkActive]="sidebarSubItem.submenu.length > 0 ? '' : 'active'">
+                        <a [routerLink]="sidebarSubItem.submenu.length > 0 ? null : sidebarSubItem.path"
+                           [queryParams]="sidebarItem!.queryParams"
+                           (click)="callSubMenuToggle(sidebarSubItem.title)" [ngClass]="[sidebarSubItem.class]">
+                           <span id="sidebar.{{sidebarSubItem.title}}"> {{sidebarSubItem.title}}</span>
+                        </a>
+                        <!-- Third level menu -->
+                        <ul class="collapse" *ngIf="sidebarSubItem.submenu.length > 0"
+                            [ngClass]="{'in' : showSubMenu === sidebarSubItem.title }">
+                           <li *ngFor="let sidebarSubsubItem of sidebarSubItem.submenu"
+                               [ngClass]="[sidebarSubsubItem.class]">
+                              <a [routerLink]="[sidebarSubsubItem.path]" [queryParams]="sidebarItem!.queryParams">
+                                 id="sidebar.{{sidebarSubsubItem.title}}"
+                                 {{sidebarSubsubItem.title}}
+                              </a>
+                           </li>
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+            </li>
+         </ul>
+         <p class="ml-4">Versao: {{ version }}</p>
+      </div>
+      <!-- #Menu -->
+   </aside>
+   <!-- #END# Left Sidebar -->
+</div>

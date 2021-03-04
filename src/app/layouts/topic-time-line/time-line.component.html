@@ -1,0 +1,45 @@
+
+      <div class="container">
+         <div class="row">
+            <div class="col-md-10">
+               <ul class="left-timeline" *ngFor="let disciplineTopicLevel of topicByLevel; let i = index">
+                  <li>
+                     <time datetime="2017-11-04T03:45" class="left-time"><span>Level {{i + 1}}</span>
+                     </time>
+                     <div class="left-icon">{{i + 1}}</div>
+                     <div class="left-label">
+                        <h2></h2>
+                        <div class="row text-center">
+                           <div class="col-3" *ngFor="let topicDiscipline of disciplineTopicLevel">
+                              <div class="text-center col-centered padding-5">
+                                 <a [href]="setLink(topicDiscipline!.topic!.id)" *ngIf="topicDiscipline!.topic!.id && this.sharedFunctions.isAdmin()">
+                                    <div class="course pending">
+                                       <img
+                                          *ngIf="topicDiscipline.topic.imageUrl!== null && topicDiscipline.topic.imageUrl!== undefined"
+                                          width="40" height="40" src="{{setImgLink(topicDiscipline.topic.imageUrl)}}">
+                                    </div>
+                                 </a>
+                                 <span *ngIf="!verifyLogin() && !this.sharedFunctions.isAdmin()" (click)="openDialog()" style="cursor:pointer;">
+                                    <div class="course pending">
+                                       <img
+                                          *ngIf="topicDiscipline.topic.imageUrl!== null && topicDiscipline.topic.imageUrl!== undefined"
+                                          width="40" height="40" src="{{setImgLink(topicDiscipline.topic.imageUrl)}}">
+                                    </div>
+                                 </span>
+                                 <span *ngIf="verifyLogin() && !this.sharedFunctions.isAdmin()">
+                                    <div class="course pending">
+                                       <img
+                                          *ngIf="topicDiscipline.topic.imageUrl!== null && topicDiscipline.topic.imageUrl!== undefined"
+                                          width="40" height="40" src="{{setImgLink(topicDiscipline.topic.imageUrl)}}">
+                                    </div>
+                                 </span>
+                                 <p class="pending">{{topicDiscipline.topic.name}}</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>

@@ -1,0 +1,62 @@
+<ul class="breadcrumb breadcrumb-style ">
+    <li class="breadcrumb-item" *ngIf="menuItems[0]">
+        <h4 class="page-title" id="{{menuItems[0].label}}">{{menuItems[0].label}}</h4>
+    </li>
+    <li class="breadcrumb-home"><a [routerLink]="['/']"><i class="fa fa-home"></i></a></li>
+
+    <ng-template ngFor let-item let-last="last" let-i="index" [ngForOf]="menuItems | slice:1:menuItems.length">
+        <li *ngIf="!last" class="breadcrumb-item bcrumb-{{i+1}}">
+            <!--   id="{{item.id}}" -->
+            <a  *ngIf="item.url" [routerLink]="item.url" id="{{item.label}}">{{item.label}}
+                <i class="fas {{item.icon}}"></i> {{item.icon}}</a>
+            <ng-container *ngIf="!item.url" id="{{item.label}}">{{item.label}}</ng-container>
+        </li>
+        <li *ngIf="last" class="breadcrumb-item active">
+            <spam id="{{item.label}}">{{item.label}}</spam>
+        </li>
+    </ng-template>
+</ul>
+
+<!--
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <ul class="breadcrumb breadcrumb-style ">
+                            <li class="breadcrumb-item">
+                                <h4 class="page-title" id="wokApp.affiliation.breadcrumb.all-affiliation">All Affiliations</h4>
+                            </li>
+                            <li class="breadcrumb-item bcrumb-1">
+                                <a [routerLink]="['/classroom/main']">
+                                    <i class="fas fa-home" id="wokApp.affiliation.breadcrumb.home"></i> Home</a>
+                            </li>
+                            <li class="breadcrumb-item bcrumb-2">
+                                <a href="#" onClick="return false;"  id="wokApp.affiliation.breadcrumb.affiliation">Affiliations</a>
+                            </li>
+                            <li class="breadcrumb-item active" id="wokApp.affiliation.breadcrumb.all">All</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            -->
+<!--
+<div class="layout-breadcrumb">
+    <div class="breadcrumb">
+        <div class="route-bar-breadcrumb">
+            <li>
+                <a routerLink="">
+                    <i class="fa fa-home"></i>
+                </a>
+            </li>
+            <li class="ng-star-inserted">Pages</li>
+            <ng-template ngFor let-item let-last="last" [ngForOf]="items">
+                <li>
+                    <a [routerLink]="item.routerLink" *ngIf="item.routerLink">{{item.label}}</a>
+                    <ng-container *ngIf="!item.routerLink">{{item.label}}</ng-container>
+                </li>
+                <li *ngIf="!last">/</li>
+            </ng-template>
+        </div>
+    </div>
+    <div class="notification">👋 Bonjour Olivia, there is no notification today for you</div>
+</div>
+-->

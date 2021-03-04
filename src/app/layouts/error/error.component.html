@@ -1,0 +1,13 @@
+<section class="content">
+
+   <div class="row">
+      <div class="col-md-8 text-center m-auto">
+         <h1 id="error.title">Error Page!</h1>
+         <img width="500" src="/assets/images/space.png">
+         <div *ngIf="errorMessage">
+            <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+         </div>
+      </div>
+   </div>
+
+</section>

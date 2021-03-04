@@ -1,0 +1,188 @@
+<nav #navbar class="navbar active">
+   <div class="container-fluid" [ngClass]="envMode==='development'?'bg-secondary':''">
+      <div class="navbar-header">
+         <a href="#" onClick="return false;" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#navbar-collapse" aria-expanded="false"></a>
+         <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
+         <a class="navbar-brand" [routerLink]="['/home']">
+            <img src="/assets/images/logo/logo-mundodocodigo-2021-base-74x100.png" height="60px"
+                 alt="Mundo Do Código" />
+            <!-- <span class="logo-name">WOK</span> -->
+         </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse">
+         <ul class="pull-left collapse-menu-icon">
+            <li>
+               <button mat-icon-button (click)="callSidemenuCollapse()"
+                       class="sidemenu-collapse mat-focus-indicator sidemenu-collapse mat-icon-button mat-button-base">
+                  <mat-icon>menu</mat-icon>
+               </button>
+            </li>
+         </ul>
+         <ul class="nav navbar-nav navbar-right">
+            <!-- Full Screen Button Authenticated-->
+            <li *ngIf="isAdmin()">
+               <button mat-icon-button [matMenuTriggerFor]="menuGavel" aria-label="Example icon-button with a menu">
+                  <mat-icon>gavel</mat-icon>
+               </button>
+               <mat-menu #menuGavel="matMenu">
+                  <button [routerLink]="item.path" routerLinkActive="router-link-active" mat-menu-item
+                          *ngFor="let item of adminMenuItems[2].submenu">
+                    <span>{{item.title}}</span>
+<!--                     <span id="sidebar.{{item.title}}">{{item.title}}</span>-->
+                  </button>
+               </mat-menu>
+            </li>
+
+            <li *ngIf="isAdmin()">
+               <button mat-icon-button [matMenuTriggerFor]="menuBook" aria-label="Example icon-button with a menu">
+                  <mat-icon>menu_book</mat-icon>
+               </button>
+               <mat-menu #menuBook="matMenu">
+                  <button [routerLink]="item.path" routerLinkActive="router-link-active" mat-menu-item
+                          *ngFor="let item of adminMenuItems[1].submenu">
+                    <span>{{item.title}}</span>
+<!--                     <span id="sidebar.{{item.title}}">{{item.title}}</span>-->
+                  </button>
+               </mat-menu>
+            </li>
+            <li *ngIf="isAdmin()">
+               <button mat-icon-button [matMenuTriggerFor]="menuSchool" aria-label="Example icon-button with a menu">
+                  <mat-icon>school</mat-icon>
+               </button>
+               <mat-menu #menuSchool="matMenu">
+                  <button [routerLink]="item.path" routerLinkActive="router-link-active" mat-menu-item
+                          *ngFor="let item of adminMenuItems[4].submenu">
+<!--                    <span id="sidebar.{{item.title}}">{{item.title}}</span>-->
+                     <span>{{item.title}}</span>
+                  </button>
+               </mat-menu>
+            </li>
+            <li *ngIf="isAdmin()">
+               <button mat-icon-button [matMenuTriggerFor]="menuSupervisorAccount"
+                       aria-label="Example icon-button with a menu">
+                  <mat-icon>supervisor_account</mat-icon>
+               </button>
+               <mat-menu #menuSupervisorAccount="matMenu">
+                  <button [routerLink]="item.path" routerLinkActive="router-link-active" mat-menu-item
+                          *ngFor="let item of adminMenuItems[3].submenu">
+<!--                    <span id="sidebar.{{item.title}}">{{item.title}}</span>-->
+                     <span>{{item.title}}</span>
+                  </button>
+               </mat-menu>
+            </li>
+            <li *ngIf="isAdmin()">
+               <button mat-icon-button [matMenuTriggerFor]="menuMiscellaneousServices"
+                       aria-label="Example icon-button with a menu">
+                  <mat-icon>miscellaneous_services</mat-icon>
+               </button>
+               <mat-menu #menuMiscellaneousServices="matMenu">
+                  <button [routerLink]="item.path" routerLinkActive="router-link-active" mat-menu-item
+                          *ngFor="let item of adminMenuItems[0].submenu">
+                     <span>{{item.title}}</span>
+                  </button>
+               </mat-menu>
+            </li>
+
+            <!-- Full Screen Button Authenticated-->
+            <li *ngIf="accountService.isAuthenticated()" class="fullscreen">
+               <button mat-icon-button (click)="callFullscreen()" class=" nav-notification-icons">
+                  <mat-icon>fullscreen</mat-icon>
+               </button>
+            </li>
+            <!-- #END# Full Screen Button  Authenticated-->
+            <!-- #START# Notifications  Authenticated-->
+            <li *ngIf="accountService.isAuthenticated()">
+               <button [matMenuTriggerFor]="menuNotificationAccount" mat-icon-button class="nav-notification-icons">
+                  <mat-icon>notifications_none</mat-icon>
+                  <span *ngIf="notifications" class="label-count bg-orange"></span>
+               </button>
+               <mat-menu #menuNotificationAccount="matMenu">
+
+                  <button mat-menu-item *ngFor="let  notification of notifications">
+                     <span class="table-img msg-user"><img src="{{notification.userImg}}" alt=""></span>
+                     <span>{{notification.userName}}</span><br>
+                  </button>
+                  <button mat-menu-item *ngIf="!notifications || notifications?.length === 0">
+                     No notifications
+                  </button>
+               </mat-menu>
+            </li>
+            <!-- #END# Notifications Authenticated-->
+            <!-- #START# Language-->
+            <li class="dropdown language" *ngIf="languages && languages.length > 1">
+               <button [matMenuTriggerFor]="menuLanguageAccount" mat-icon-button
+                       aria-label="Example icon-button with a menu">
+                  <mat-icon>language</mat-icon>
+               </button>
+               <mat-menu #menuLanguageAccount="matMenu">
+                  <button routerLinkActive="router-link-active" mat-menu-item *ngFor="let language of languages">
+                     <span [wokActiveMenu]="language"
+                           (click)="changeLanguage(language);">{{ language | findLanguageFromKey }}</span>
+                  </button>
+               </mat-menu>
+            </li>
+            <!-- #END   # Language-->
+            <!-- #START# User Account Authenticated-->
+            <li *ngIf="accountService.isAuthenticated()" class="dropdown user_profile">
+               <button [matMenuTriggerFor]="menuProfileAccount" mat-icon-button
+                       aria-label="Example icon-button with a menu">
+                  <img  (error)="showProfileImg = false;" *ngIf="showProfileImg"
+                       src="{{sharedFunctions.imageDir + accountService.getImageUrl()}}"
+                       class="rounded-circle"
+                       width="32" height="32" alt="User">
+                  <mat-icon *ngIf="!showProfileImg">account_circle</mat-icon>
+               </button>
+               <mat-menu #menuProfileAccount="matMenu">
+                  <button routerLinkActive="router-link-active" mat-menu-item
+                          [routerLink]="['/account/profile']">
+                     <mat-icon aria-hidden="false" class="mr-2 ">person</mat-icon>
+                     <span id="sidebar.account.profile">Profile</span>
+                  </button>
+                  <button [routerLink]="['/faq']" routerLinkActive="router-link-active" mat-menu-item>
+                     <mat-icon aria-hidden="false" class="mr-2 ">help</mat-icon>
+<!--                     <span id="sidebar.content.faq.title">Help</span>-->
+                    <span>Help</span>
+                  </button>
+                  <button (click)="logout()" routerLinkActive="router-link-active" mat-menu-item>
+                     <mat-icon aria-hidden="false" class="mr-2 ">power_settings_new</mat-icon>
+                     <span id="global.menu.account.logout">Sign out</span>
+                  </button>
+               </mat-menu>
+            </li>
+            <!-- #END# User Account Authenticated--->
+            <!-- #START# User Account Not Authenticated-->
+            <li *ngIf="!accountService.isAuthenticated()" class="dropdown user_profile">
+               <button [matMenuTriggerFor]="menuProfileNoAuthAccount" mat-icon-button
+                       aria-label="Example icon-button with a menu">
+                  <mat-icon>account_circle</mat-icon>
+               </button>
+               <mat-menu #menuProfileNoAuthAccount="matMenu">
+                  <button routerLinkActive="router-link-active" mat-menu-item
+                          [routerLink]="['/account/login']">
+                     <mat-icon aria-hidden="false" class="mr-2 ">person</mat-icon>
+                     <span id="sidebar.account.sign-in">Login</span>
+                  </button>
+                  <button [routerLink]="['/faq']" routerLinkActive="router-link-active" mat-menu-item>
+                     <mat-icon aria-hidden="false" class="mr-2 ">help</mat-icon>
+                    <span>Help</span>
+<!--                     <span id="sidebar.content.faq.title">Help</span>-->
+                  </button>
+                  <button [routerLink]="['/authentication/signin']" (click)="register()" routerLinkActive="router-link-active" mat-menu-item>
+                     <mat-icon aria-hidden="false" class="mr-2 ">assignment
+                     </mat-icon>
+                     <span id="sidebar.account.sign-up">Register</span>
+                  </button>
+               </mat-menu>
+            </li>
+            <!-- #END   # User Account Not Authenticated-->
+            <li class="pull-right">
+               <button mat-icon-button (click)="toggleRightSidebar()"
+                       class="nav-notification-icons js-right-sidebar">
+                  <mat-icon id="settingBtn">settings</mat-icon>
+               </button>
+            </li>
+         </ul>
+      </div>
+   </div>
+</nav>

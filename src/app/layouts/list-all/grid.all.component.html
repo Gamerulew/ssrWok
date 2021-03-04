@@ -1,0 +1,88 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <wok-breadcrumb></wok-breadcrumb>
+                </div>
+            </div>
+        </div>
+
+        <wok-snack-bar></wok-snack-bar>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item"><a href="#tab1" class="nav-link active" data-toggle="tab">List View</a></li>
+                        <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">Grid View</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active fontawesome-demo" id="tab1">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card">
+                                        <div class="body">
+                                            <div class="table-responsive">
+                                                <div class="materialTableHeader">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <ul class="header-buttons-left ml-0">
+                                                                <li class="dropdown">
+                                                                    <h2><strong>{{itemName}}</strong></h2>
+                                                                </li>
+                                                                <li class="dropdown m-l-20">
+                                                                    <ng-content *ngTemplateOutlet="searchTemplate ? searchTemplate : exemplo" ></ng-content>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <ul class="header-buttons">
+                                                                <li>
+                                                                    <div class="icon-button-demo">
+                                                                        <button class="jh-create-entity create-{{itemName}}" id="jh-create-entity"
+                                                                                mat-mini-fab color="primary" [routerLink]="['new']" >
+                                                                            <mat-icon class="col-white">add</mat-icon>
+                                                                        </button>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="icon-button-demo">
+                                                                        <button mat-mini-fab color="primary">
+                                                                            <!-- todo:  (click)="refresh()" -->
+                                                                            <mat-icon class="col-white">refresh</mat-icon>
+                                                                        </button>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="alert alert-warning" id="no-result" *ngIf="itemlist?.length === 0">
+                                                    <span>No {{itemName}} found</span>
+                                                </div>
+                                                <ng-content *ngTemplateOutlet="tableTemplate ? tableTemplate : exemplo" ></ng-content>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <div class="row">
+                                <ng-content *ngTemplateOutlet="gridTemplate ? gridTemplate : exemplo" ></ng-content>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-content *ngTemplateOutlet="paginationTemplate ? paginationTemplate : exemplo" ></ng-content>
+            </div>
+        </div>
+    </div>
+    <div>
+
+    </div>
+</section>
+<ng-template #exemplo>Faltou Completar Aqui</ng-template>

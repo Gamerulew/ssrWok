@@ -1,0 +1,15 @@
+<mat-dialog-content class="mat-typography">
+
+   <div class="text-center mb-3">
+      <img width="130"
+           src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Antu_task-complete.svg/768px-Antu_task-complete.svg.png">
+
+      <hr>
+      <h3>Parece que você ja está logado. Caso queria ir para o seu dashboard ou para a home do site selecione um dos
+         botões</h3>
+   </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+   <button mat-button mat-dialog-close [mat-dialog-close]="false">Home</button>
+   <button mat-button [mat-dialog-close]="true" cdkFocusInitial>DashBoard</button>
+</mat-dialog-actions>

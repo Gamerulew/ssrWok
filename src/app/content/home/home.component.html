@@ -1,0 +1,450 @@
+<section class="content">
+
+   <div class="container-fluid">
+      <div class="block-header">
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               <ul class="breadcrumb breadcrumb-style ">
+                  <li class="breadcrumb-item">
+                     <h4 class="page-title">Home</h4>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-1">
+                     <a [routerLink]="['/home']">
+                        <i class="fas fa-home"></i> Home</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <!-- Your content goes here  -->
+      <section class="row no-gutters my-5" id="intro">
+
+         <div class="col-md-12 text-center">
+            <h1 class="display-4" >Recruta, faça seu login e se junte!</h1>
+            <!-- <h2 class="display-4">Programar pode ser Divertido!</h2> -->
+            <img class="d-none d-md-inline" style="width: 400px;" src="/assets/images/logo/logo-mundodocodigo-2021-base-370x501.png">
+            <img class="d-inline d-md-none" style="width: 60%;" src="/assets/images/logo/logo-mundodocodigo-2021-base-370x501.png">
+         </div>
+         <div class="col-md-4">
+            <div [ngSwitch]="isAuthenticated()">
+               <div class="alert alert-success" *ngSwitchCase="true">
+                        <span id="home-logged-message" *ngIf="account" id="home.logged.message">Você está Logado como "{{ account.login }}
+                           ".</span>
+               </div>
+            </div>
+         </div>
+
+      </section>
+      <section class="row no-gutters dark my-5" id="features">
+         <div class="col-lg-3 col-md-6 col-sm-12 deep-purple lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".1s"><i class="fa fa-puzzle-piece fa-2x"></i>
+               <div class="h5 mt-3">Gamificação</div>
+               <p class="mt-5">Estudar e praticar geralmente é encarado como algo chato.
+                  Mas tudo pode ter uma pitada de diversão e ser mais empolgante.</p>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 purple lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".3s"><i class="fa fa-smile-beam fa-2x"></i>
+               <div class="h5 mt-3">Assistência</div>
+               <p class="mt-5">O Mundo do Código é uma plataforma ativa, não somos um simples EAD, mas
+                  uma tecnologia que te auxilia a aprender entendendo seus erros.</p>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 teal lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".5s"><i class="fa fa-book fa-2x"></i>
+               <div class="h5 mt-3"> Liberdade</div>
+               <p class="mt-5">Cada pessoa tem um caminho para de se desenvolver.
+                  Estimulamos você a encontrar e escolher o seu, adaptado às suas habilidades.</p>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 light-blue lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".7s"><i class="fa fa-chart-line fa-2x"></i>
+               <div class="h5 mt-3"> Evolução</div>
+               <p class="mt-5">Ultrapasse os limites do seu professor e evolua continuamente sua habilidades. </p>
+            </div>
+         </div>
+      </section>
+      <section class="py-5" id="projects">
+         <div class="container">
+            <div class="wow fadeIn">
+               <h2 class="text-center h1 my-4">Entenda que fazemos diferente!</h2>
+               <p class="px-5 mb-5 pb-3 lead blue-grey-text text-center">
+                  Esqueça as plataformas convencionais, nós somos <b>uma plataforma tecnológica</b> para tutoria online
+                  de alunos,
+                  <b>especializada em disciplinas de cursos que envolve lógica computacional</b>.
+                  <b>Misturamos</b> conceitos de <b>EAD, Gamificação, Maratona de Programação e Tutoria Online</b> em
+                  uma ferramenta
+                  que ajuda: <b>o professor a ganhar tempo e conhecer seu aluno</b>;
+                  e dando ao <b>aluno assistência imediata</b> para <b>desenvolver</b> seus exercícios e <b>seu
+                  conhecimento</b>
+                  direcionado para sua evolução pessoal.
+               </p>
+            </div>
+            <div class="row wow fadeInLeft" data-wow-delay=".3s">
+               <div class="col-lg-6 col-xl-7 pl-lg-5 pb-4">
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-check fa-2x cyan-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Correção Automática</h5>
+                        <p class="grey-text">
+                           Lembra como é chato fazer um exercícios de programação e quando o
+                           professor corrige você nem lembra mais oque você tinha feito?
+                           Aqui todos os exercícios são corrigidos em minutos dando a você noção se está no caminho
+                           certo.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-comments fa-2x red-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Feedback</h5>
+                        <p class="grey-text">
+                           E como é ruim ficar agarrado tentando em uma solução sem saber para onde caminhar...
+                           Temos um cuidado especial pra de forma imediata te dar o feedback sobre suas soluções.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-chart-line fa-2x red-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Evolução</h5>
+                        <p class="grey-text">
+                           Em cada atividade resolvida mostramos como você está evoluindo em cada habilidade do curso,
+                           mostramos comparativos entre você e as pessoas em volta.
+                           Mas principalmente mostramos como você pode escolher o seu caminho e evoluir a cada dia.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-code fa-2x red-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Linguagem de Programação</h5>
+                        <p class="grey-text">
+                           Promovemos a liberdade para que se possível cada aluno possa se desenvolver na linguagem de
+                           programação que melhor lhe agrade.
+                           Nossos exercícios em sua maioria são independentes e supostam mais de 15 linguagens
+                           diferentes.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-6 col-xl-5 pr-lg-5 pb-5"><img class="img-fluid rounded z-depth-2"
+                                                                src="/assets/images/banner/aluno.png"
+                                                                alt="project image"></div>
+            </div>
+            <hr>
+            <div class="row pt-5 wow fadeInRight" data-wow-delay=".3s">
+               <div class="col-lg-6 col-xl-5 mb-3"><img class="img-fluid rounded z-depth-2"
+                                                        src="/assets/images/banner/teacher.png" alt="project image">
+               </div>
+               <div class="col-lg-6 col-xl-7 mb-3">
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-users fa-2x indigo-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Gerência</h5>
+                        <p class="grey-text">
+                           Com metodologias atuais é quase impossível o professor conhecer seu aluno e como ele se
+                           desenvolve no curso.
+                           Nosso dashboard apresenta o perfil do aluno, suas principais habilidades e até deficiências
+                           que precisam ser desenvolvidas.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-laptop-code fa-2x indigo-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Trabalho Eficiente</h5>
+                        <p class="grey-text">
+                           O dia a dia profissional contribui para que a maioria dos professores não possa realizar sua
+                           tarefa na plenitude.
+                           Imagine um aluno que faz uma lista de exercícios e o professor não tem o tempo para
+                           minuciosamente corrigir a lista e descobrir oq
+                           precisa ser reforçado. Muitas vezes o aluno nem sabe onde errou e vai descobrir somente na
+                           prova.
+                           Nós fazemos este trabalho pensando no benefício do ensino.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-signal fa-2x pink-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Atividades Online</h5>
+                        <p class="grey-text">
+                           Usando tecnologias de plágio, controle de versão e diversidade de material provemos
+                           o melhor ambiente online para Atividades Avaliativas quando se trata de cursos de Ciências da
+                           Computação.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col-1 mr-1"><i class="fa fa-book fa-2x blue-text"></i></div>
+                     <div class="col-10">
+                        <h5 class="font-bold">Conteúdo</h5>
+                        <p class="grey-text">
+                           Provemos sugestões de conteúdos e tópicos para vários assuntos da computação.
+                           Cada tópico é especialmente desenhado e com um catálogo de exercícios que pode ser
+                           personalizado para o professor da maneira mais simples possível.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="row no-gutters dark my-5" id="Numbers">
+         <div class="col-lg-3 col-md-6 col-sm-12 deep-purple lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".1s"><i class="fa fa-puzzle-piece fa-2x"></i>
+               <div class="h3 mt-3">6 Cursos</div>
+               <div class="h3 mt-3">78 Tópicos</div>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 purple lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".3s"><i class="fa fa-lightbulb fa-2x"></i>
+               <div class="h2 mt-3">800</div>
+               <p class="h5">Problemas</p>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 teal lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".5s"><i class="fa fa-user fa-2x"></i>
+               <div class="h2 mt-3"> 134</div>
+               <p class="h5">Usuários Ativos.</p>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 light-blue lighten-1 text-white">
+            <div class="p-5 text-center wow zoomIn" data-wow-delay=".7s"><i class="fa fa-chart-line fa-2x"></i>
+               <div class="h2 mt-3"> 3450</div>
+               <p class="h5">Submissões de Exercícios.</p>
+            </div>
+         </div>
+      </section>
+      <section class="text-left py-5 grey lighten-4" id="about">
+         <div class="container">
+            <div class="wow fadeIn">
+               <h2 class="text-center h1 pt-5 pb-3">Por que é Legal?</h2>
+               <div class="row pt-5 wow fadeInRight" data-wow-delay=".3s">
+                  <div class="col-lg-6 col-xl-5 mb-3"><img class="img-fluid rounded z-depth-2"
+                                                           src="/assets/images/banner/gamification_energizer.jpg"
+                                                           alt="project image">
+                  </div>
+                  <div class="col-lg-6 col-xl-7 mb-3">
+                     <div class="row mb-3">
+                        <div class="col-1 mr-1"><i class="fa fa-medal fa-2x indigo-text"></i></div>
+                        <div class="col-10">
+                           <h5 class="font-bold">Competição/Medalhas</h5>
+                           <p class="grey-text">
+                              Em um ambiente de competição sadia os alunos podem ver sua classificação e ao mesmo tempo
+                              entender como podem melhorar.
+                           </p>
+                        </div>
+                     </div>
+                     <div class="row mb-3">
+                        <div class="col-1 mr-1"><i class="fa fa-gamepad fa-2x pink-text"></i></div>
+                        <div class="col-10">
+                           <h5 class="font-bold">Pontos e Desafios</h5>
+                           <p class="grey-text">
+                              Apesar de ser um ambiente de estudos focamos em continuamente desafiar os alunos a
+                              ultrapassarem seus limites.
+                              Usando conceitos comuns nos games ele é inspirado a sempre melhorar e dar um passo a mais
+                              para aprender mais.
+                           </p>
+                        </div>
+                     </div>
+                     <div class="row mb-3">
+                        <div class="col-1 mr-1"><i class="fa fa-coins fa-2x blue-text"></i></div>
+                        <div class="col-10">
+                           <h5 class="font-bold">Recompensas</h5>
+                           <p class="grey-text">
+                              Apesar de estar em um ambiente que busca o lúdico suas conquistas são convertidos em
+                              pontos
+                              reais que serão usados na evolução dos seus cursos e inclusive em oportunidades de
+                              trabalho.
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+      </section>
+      <section class="row no-gutters dark my-5" id="Caracteristicas">
+         <div class="col-lg-3 col-md-6 col-sm-12 p-5 text-center wow fadeInUp lighten-1 text-white"
+              data-wow-delay=".3s">
+            <i class="fa fa-heart fa-3x col-pink"></i>
+            <h3 class="h4 mt-3">Design</h3>
+            <p class="mt-3 blue-grey-text">
+               Nosso ambiente é todo focado em um design leve para o aluno.
+            </p>
+         </div>
+         <div class="col-lg-3 col-md-6 col-sm-12 p-5 text-center wow fadeInUp lighten-1 text-white"
+              data-wow-delay=".4s">
+            <i class="fa fa-coins fa-3x col-orange"></i>
+            <h3 class="h4 mt-3">Feedback</h3>
+            <p class="mt-3 blue-grey-text">
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam
+               minima assumenda deleniti
+               hic.
+            </p>
+         </div>
+         <div class="col-lg-3 col-md-6 col-sm-12 p-5 text-center wow fadeInUp lighten-1 text-white"
+              data-wow-delay=".5s">
+            <i class="fa fa-gem fa-3x col-cyan"></i>
+            <h3 class="h4 mt-3">Execution</h3>
+            <p class="mt-3 blue-grey-text">
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam
+               minima assumenda deleniti
+               hic.
+            </p>
+         </div>
+         <div class="col-lg-3 col-md-6 col-sm-12 p-5 text-center wow fadeInUp lighten-1 text-white"
+              data-wow-delay=".5s">
+            <i class="fa fa-trophy fa-3x col-orange"></i>
+            <h3 class="h4 mt-3">Scores</h3>
+            <p class="mt-3 blue-grey-text">
+               Temos um sistema de pontuação flexível e personalizado para cada disciplina.
+            </p>
+         </div>
+      </section>
+      <section class="py-5" id="team">
+         <div class="container">
+            <div class="wow fadeIn">
+               <h2 class="h1 pt-5 pb-3 text-center">Um pouco da História e Time</h2>
+               <p class="px-5 mb-5 pb-3 lead text-center blue-grey-text">
+                  Somos o resultado de uma história de amadurecimento, várias pessoas já estiveram presentes e
+                  contribuíram para o que hoje é o Mundo do Código. Somos uma mistura de experiência profissional, acadêmica
+                  mas com uma pitada de jovialidade onde quem melhor entende das dificuldades de uma geração é ela mesma.
+               </p>
+            </div>
+            <div class="row mb-lg-4 center-on-small-only">
+               <div class="col-lg-6 col-md-12 mb-r wow fadeInLeft" data-wow-delay=".3s">
+                  <div class="col-md-6 float-left"><img class="img-fluid rounded z-depth-1 mb-3"
+                                                        src="/assets/images/people/alessio.jpg" alt="team member">
+                  </div>
+                  <div class="col-md-6 float-right">
+                     <div class="h4">Aléssio M. Jr</div>
+                     <h6 class="font-bold blue-grey-text mb-4">Fundador</h6>
+                     <p class="grey-text">Inovar é uma paixão, mas com embasamento ciêntífico e social.</p>
+                     <p class="grey-text">Professor Cefet-MG e Doutorando UFMG.</p>
+                     <a href="https://www.facebook.com/alessiojr" target="_blank"><i
+                        class="fab fa-facebook-square"></i><span class="ml-1">@alessiojr</span></a><br/>
+                     <a href="https://www.linkedin.com/in/alessiojr" target="_blank"><i
+                        class="fab fa-linkedin"></i><span class="ml-1">@alessiojr</span></a><br/>
+                     <a href="https://www.instagra.com/alessiomjr" target="_blank"><i
+                        class="fab fa-instagram"></i><span class="ml-1">@alessiomjr</span></a>
+                  </div>
+               </div>
+               <div class="col-lg-6 col-md-12 mb-r wow fadeInRight" data-wow-delay=".3s">
+                  <div class="col-md-6 float-left"><img class="img-fluid rounded z-depth-1 mb-3"
+                                                        src="/assets/images/people/alex.jpg" alt="team member"></div>
+                  <div class="col-md-6 float-right">
+                     <div class="h4">Alex E. L. de Paulo</div>
+                     <h6 class="font-bold blue-grey-text mb-4">BackEnd</h6>
+                     <p class="grey-text">Estratégias de tratamento e provisão de dados em uma API abertas.</p>
+                     <p class="grey-text">Estudante Eng. de Computação e Técnico em Desenvolvimento de Sistema pelo Cefet-MG.</p>
+                     <a href="https://twitter.com" target="_blank"><i
+                     class="fa fa-twitter"></i><span class="ml-1">@--</span></a>
+                  </div>
+               </div>
+            </div>
+            <div class="row center-on-small-only">
+               <div class="col-lg-6 col-md-12 mb-r wow fadeInLeft" data-wow-delay=".3s">
+                  <div class="col-md-6 float-left"><img class="img-fluid rounded z-depth-1 mb-3"
+                                                        src="/assets/images/people/pedro.jpg" alt="team member"></div>
+                  <div class="col-md-6 float-right">
+                     <div class="h4">Pedro Lucas Ferreira</div>
+                     <h6 class="font-bold blue-grey-text mb-4">FrontEnd</h6>
+                     <p class="grey-text">Design interação e como aproximar pessoas em um ambiente divertido</p>
+                     <p class="grey-text">Técnico em Desenvolvimento de Sistema pelo Cefet-MG.</p>
+                     <a href="https://twitter.com" target="_blank"><i
+                     class="fa fa-twitter"></i><span class="ml-1">@--</span></a>
+                  </div>
+               </div>
+               <div class="col-lg-6 col-md-12 mb-r wow fadeInRight" data-wow-delay=".3s">
+                  <div class="col-md-6 float-left"><img class="img-fluid rounded z-depth-1 mb-3"
+                                                        src="/assets/images/people/lorena.jpg" alt="team member"></div>
+                  <div class="col-md-6 float-right">
+                     <div class="h4">Lorena Souza Moreira</div>
+                     <h6 class="font-bold blue-grey-text mb-4">Gestora de Conteúdo</h6>
+                     <p class="grey-text">Impactada pelas formas tradicionais de ensino quero mudar a vida dos novos estudantes.</p>
+                     <p class="grey-text">Técnica em Desenvolvimento de Sistema pelo Cefet-MG.</p>
+                     <a href="https://twitter.com" target="_blank"><i
+                     class="fa fa-twitter"></i><span class="ml-1">@vincentharris</span></a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section id="contact" class="dark"> <!-- style="background-image:url('/assets/images/logo-wok.png');"-->
+         <div class="rgba-black-strong py-5">
+            <div class="container">
+               <div class="wow fadeIn">
+                  <h2 class="h1 text-white pt-5 pb-3 text-center">Contato</h2>
+                  <p class="text-white px-5 mb-5 pb-3 lead text-center">
+                     Nós queremos mudar a realidade na sua Escola ou Universidade. <br>
+                     Entre em contato para que possamos enviar uma demonstração.
+                  </p>
+               </div>
+               <div class="card mb-5 wow fadeInUp" data-wow-delay=".4s">
+                  <div class="card-body p-5">
+                     <div class="row">
+                        <div class="col-md-8">
+                           <form action="https://formspree.io/contato@mundodocodigo.com" method="POST">
+                              <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="md-form">
+                                       <input class="form-control" id="name" type="text" name="name"
+                                              required="required">
+                                       <label for="name">Seu Nome</label>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                    <div class="md-form">
+                                       <input class="form-control" id="email" type="text" name="_replyto"
+                                              required="required">
+                                    </div>
+                                    <label for="email">Seu Email</label>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <div class="md-form">
+                                       <input class="form-control" id="subject" type="text" name="subject"
+                                              required="required">
+                                       <label for="subject">Assunto</label>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-12">
+                                    <div class="md-form">
+                                                    <textarea class="md-textarea form-control" id="message" name="message"
+                                                              required="required"></textarea>
+                                       <label for="message">Menssagem</label>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="center-on-small-only mb-4 text-right">
+                                 <button class="btn btn-secondary ml-0" type="submit">Enviar
+                                 </button>
+                              </div>
+                           </form>
+                        </div>
+                        <div class="col-md-4">
+                           <ul class="list-unstyled text-center">
+                              <li class="mt-4"><i class="fa fa-map-marker indigo-text fa-2x"></i>
+                                 <p class="mt-2">Rua 19 de Novembro, 19, Centro Norte, Timóteo-MG, BR</p>
+                              </li>
+                              <li class="mt-4"><i class="fa fa-phone indigo-text fa-2x"></i>
+                                 <p class="mt-2">+55 31 9.8830-0100</p>
+                              </li>
+                              <li class="mt-4"><i class="fa fa-envelope indigo-text fa-2x"></i>
+                                 <p class="mt-2">contato@mundodocodigo.com.br</p>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+   </div>
+</section>
