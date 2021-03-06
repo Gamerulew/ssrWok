@@ -1,0 +1,174 @@
+<div class="row mt-1">
+   <div class="col-12 text-right">
+      <button mat-stroked-button [hidden]="treeView" (click)="toggleSlider()" matTooltip="Change to list view"
+              matTooltipPosition="above">
+         Lista <mat-icon>list</mat-icon>
+      </button>
+      <button mat-stroked-button [hidden]="!treeView" (click)="toggleSlider()" matTooltip="Change to tree view"
+              matTooltipPosition="above">
+        Árvore <mat-icon>account_tree</mat-icon>
+      </button>
+      <button mat-stroked-button (click)="getModuleTopics()">
+         Recarregar<mat-icon>refresh</mat-icon>
+      </button>
+   </div>
+</div>
+<div class="table-responsive">
+   <table [hidden]="!(dataSource.data && dataSource.data.length > 0 && topicByLevel && !treeView)" mat-table [dataSource]="dataSource"
+          class="mat-elevation-z1 width-full" style="min-width:0px !important;" matSort (matSortChange)="sortData($event)">
+
+      <ng-container matColumnDef="name">
+         <th mat-header-cell *matHeaderCellDef> Topics</th>
+         <td mat-cell *matCellDef="let element"> {{element!.topic!.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="S/T/M">
+         <th mat-header-cell *matHeaderCellDef> Your score / Target score / Max score</th>
+         <td mat-cell *matCellDef="let element" class="text-center">
+            <span class="badge badge-sm"
+                  *ngIf="reportResults![getI(element!.topic!.id)] && reportResults![getI(element!.topic!.id)].length > 0">
+               <span matTooltip="It's your score score in topic {{element!.topic!.name}}"
+                     matTooltipPosition="above">{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.point}}</span>/<span
+               class="mx-1" matTooltip="It's the target score in topic {{element!.topic!.name}}"
+               matTooltipPosition="above">{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.targetScore}}</span>/<span
+               class="ml-1" matTooltip="It's the max score you reach in topic {{element!.topic!.name}}"
+               matTooltipPosition="above">{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.maxGrade}}</span>
+            </span>
+            <span
+               *ngIf="!reportResults![getI(element!.topic!.id)] || reportResults![getI(element!.topic!.id)].length === 0"
+               class="badge badge-sm">No grandes</span>
+         </td>
+      </ng-container>
+
+      <ng-container matColumnDef="exercisesA">
+         <th mat-header-cell *matHeaderCellDef> Exercises A</th>
+         <td mat-cell *matCellDef="let element">
+            <span
+               class="badge col-green">{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numAresolved}}
+               /{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numA}}</span>
+         </td>
+      </ng-container>
+      <ng-container matColumnDef="exercisesB">
+         <th mat-header-cell *matHeaderCellDef> Exercises B</th>
+         <td mat-cell *matCellDef="let element">
+            <span
+               class="badge col-blue">{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numBresolved}}
+               /{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numB}}</span>
+         </td>
+      </ng-container>
+      <ng-container matColumnDef="exercisesC">
+         <th mat-header-cell *matHeaderCellDef> Exercises C</th>
+         <td mat-cell *matCellDef="let element">
+            <span
+               class="badge col-orange">{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numCresolved}}
+               /{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numC}}</span>
+         </td>
+      </ng-container>
+      <ng-container matColumnDef="exercisesD">
+         <th mat-header-cell *matHeaderCellDef> Exercises D</th>
+         <td mat-cell *matCellDef="let element">
+            <span
+               class="badge col-red">{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numDresolved}}
+               /{{reportResults![getI(element!.topic!.id)][getJ(element!.topic!.id)]?.numD}}</span>
+         </td>
+      </ng-container>
+      <ng-container matColumnDef="completed">
+         <th mat-header-cell *matHeaderCellDef> Completed</th>
+         <td mat-cell *matCellDef="let element">
+            <ngb-progressbar height="13px" textType="dark" [showValue]="true" type="success"
+                             [value]="50"></ngb-progressbar>
+         </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+         <th mat-header-cell *matHeaderCellDef> Status</th>
+         <td mat-cell *matCellDef="let element">
+            <!--            DATA INVALID-->
+            <span *ngIf="verifyInvalidData(element)" class="badge col-grey"
+                  matTooltip="Alguma data está indefinida">Data inválida</span>
+            <span *ngIf="!verifyInvalidData(element)">
+                  <!--             ESTA ABERTO     -->
+
+                  <span *ngIf="dateStartCompare(element?.startTime,element?.endTime)">
+                        <span class="badge col-orange"
+                              matTooltip="Será encerrado {{convertData(element?.endTime)|date:'dd/MM/yyyy H:mm'}}"
+                              *ngIf="checkData(element?.endTime).days < 1">Fechará hoje as {{convertData(element?.endTime)|date:'H:mm'}}</span>
+                        <span class="badge" [ngClass]="checkData(element?.endTime).days === 1?'col-orange':'col-green'"
+                              *ngIf="checkData(element?.endTime).days >= 1"
+                              matTooltip="Será encerrado {{convertData(element?.endTime)|date:'dd/MM/yyyy H:mm'}}">Restam {{checkData(element?.endTime).days}}
+                           dia(s) <span
+                              *ngIf="checkData(element?.endTime).days === 1">{{checkData(element?.endTime).hours % 24}}
+                              hora(s) e {{checkData(element?.endTime).minutes % 60}}</span></span>
+                     </span>
+               <!--            ESTÁ FECHADO PQ JA FOI ENCERRADO     -->
+
+                  <span class="badge col-red" *ngIf="dateEndCompare(element?.endTime)"
+                        matTooltip="Foi encerrado {{convertData(element?.endTime)|date:'dd/MM/yyyy H:mm'}}">Closed</span>
+
+               <!--               ESTÁ FECHADO MAS IRÁ ABRIR   -->
+
+                  <span
+                     *ngIf="!dateStartCompare(element?.startTime,element?.endTime) && !dateEndCompare(element?.endTime)">
+                     <span
+                        class="badge col-blue" matTooltip="Irá abrir {{convertData(element?.startTime)|date:'dd/MM/yyyy H:mm'}}"
+                        *ngIf="checkData(element?.startTime).days <= 5">Abrirá em {{checkData(element?.startTime).days}}
+                        dia(s) <span
+                           *ngIf="checkData(element?.startTime).days === 1"> {{checkData(element?.startTime).hours % 24}}
+                           hora(s) e {{checkData(element?.startTime).minutes % 60}} minuto(s)</span>
+                        <!--                        {{convertData(element?.startTime)|date:'dd/MM/yyyy H:mm'}}-->
+                     </span>
+                     <span *ngIf="checkData(element?.startTime).days > 5" class="badge col-red"
+                           matTooltip="Irá abrir {{convertData(element?.startTime)|date:'dd/MM/yyyy H:mm'}}">Closed</span>
+                  </span>
+
+                  <!--                  -->
+            </span>
+         </td>
+      </ng-container>
+
+      <ng-container matColumnDef="buttons">
+         <th mat-header-cell *matHeaderCellDef></th>
+         <td mat-cell *matCellDef="let element">
+            <div class="row text-right">
+               <div class="col-12">
+                  <button mat-stroked-button color="accent" class="m-1" *ngIf="!hasHighAccess"
+                          [routerLink]="['/account/classroom',courseSlug,'module',disciplineSlug,'topic',element?.topic?.slug,'submissions']">
+                     <span class="d-none d-xl-inline">Submissions</span>
+                     <mat-icon>history</mat-icon>
+                  </button>
+                  <button mat-stroked-button class="m-1" *ngIf="hasHighAccess"
+                          [routerLink]="['/teacher/classroom',courseSlug,'module',disciplineSlug,'topic',element?.topic?.slug,'manager']">
+                     <span class="d-none d-xl-inline">Manager</span>
+                     <mat-icon>analytics</mat-icon>
+                  </button>
+                  <button mat-raised-button color="primary" class="m-1"
+                          [disabled]="!dateStartCompare(element?.startTime,element?.endTime) && !hasHighAccess"
+                          [routerLink]="[routePrefix,'classroom',courseSlug,'module',disciplineSlug,'topic',element?.topic?.slug,'exercises']">
+                     <span jhiTranslate="entity.action.open" class="d-none d-xl-inline">Abrir</span>
+                     <mat-icon>topic</mat-icon>
+                  </button>
+               </div>
+            </div>
+         </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="accountService?.isTeacher()?commonColumns:resultColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: accountService?.isTeacher()?commonColumns:resultColumns;"></tr>
+   </table>
+</div>
+<mat-paginator *ngIf="dataSource.data && dataSource.data.length > 0 && topicByLevel && !treeView" [length]="100"
+               [pageSize]="30"></mat-paginator>
+
+<!--   <mat-paginator *ngIf='dataSource.data && dataSource.data.length > 0' [pageSizeOptions]='[5, 10, 20]'-->
+<!--                  showFirstLastButtons [hidden]='treeView'></mat-paginator>-->
+<div *ngIf="!topicByLevel" class="row my-5">
+   <div class="col-12 text-center">
+      <div class="spinner-border" role="status">
+         <span class="sr-only">Loading...</span>
+      </div>
+      <p>Loading...</p>
+   </div>
+</div>
+<wok-not-found-msg message="No topics available" *ngIf="topicByLevel && dataSource.data.length === 0"
+                   [hidden]="treeView"></wok-not-found-msg>
+
+<wok-topics-tree *ngIf="topicByLevel" [hasHighAccess]="hasHighAccess" [topicByLevel]="topicByLevel" [hidden]="!treeView"
+                 (selectedTopicContent)="selectTopicContent($event)"></wok-topics-tree>

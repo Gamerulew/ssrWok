@@ -16,10 +16,12 @@ import {BlankComponent} from "./blank/blank.component";
 import {HowComponent} from "./how/how.component";
 import {UserRankGridComponent} from "./user-rank-grid/user-rank-grid.component";
 import {UserSkillArrayGridComponent} from "./user-skill-array-grid/user-skill-array-grid.component";
+import {WokWokSharedModule} from "../wok/wok-shared.module";
 
 @NgModule({
   imports: [
     WokSharedModule,
+    WokWokSharedModule,
     WokUserSharedLibsModule,
     RouterModule.forRoot(contentState)
   ],

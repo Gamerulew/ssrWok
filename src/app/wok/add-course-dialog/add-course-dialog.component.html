@@ -1,0 +1,84 @@
+<h1 mat-dialog-title>Select a course</h1>
+<div mat-dialog-content>
+   <div class="row">
+      <div class="col-12">
+         <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Search for a course</mat-label>
+            <input type="text"
+                   placeholder="Pick one"
+                   aria-label="Number"
+                   matInput
+                   [readonly]="!!data?.moduleId"
+                   [formControl]="myCourseControl"
+                   [matAutocomplete]="auto">
+            <mat-icon matSuffix (click)="selectedCourse = undefined; this.myCourseControl.setValue('');"
+                      style="cursor: pointer;">clear
+            </mat-icon>
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+               <mat-option *ngFor="let option of filteredCourses" [value]="option?.name">
+                  {{option?.name}}
+               </mat-option>
+            </mat-autocomplete>
+         </mat-form-field>
+         <wok-not-found-msg class="col-md-12 my-4"
+                            *ngIf="(publicContests && publicContests!.length > 0) && !selectedCourse"
+                            message="Select a course to join"></wok-not-found-msg>
+      </div>
+      <wok-not-found-msg class="col-md-12 my-4" *ngIf="publicContests && publicContests?.length === 0"
+                         message="Courses not found"></wok-not-found-msg>
+   </div>
+</div>
+
+
+<div class="row" *ngIf="selectedCourse">
+   <div class="col-12 my-2">
+      <mat-expansion-panel [expanded]="true">
+         <mat-expansion-panel-header>
+            <mat-panel-title>
+               {{selectedCourse?.name}}
+            </mat-panel-title>
+         </mat-expansion-panel-header>
+         <div class="row">
+            <div class="col-6">
+               <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Codigo</mat-label>
+                  <input matInput #inputCode [value]="selectedCourse?.passcode">
+               </mat-form-field>
+            </div>
+            <div class="col-6">
+               <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>User team</mat-label>
+                  <mat-select required #selectUserTeam>
+                     <mat-option>Select a user team</mat-option>
+                     <mat-option *ngFor="let userTeam of userTeams" [value]="userTeam?.id">
+                        {{userTeam?.team?.name}}</mat-option>
+                  </mat-select>
+               </mat-form-field>
+            </div>
+         </div>
+         <hr>
+         <div class="row">
+            <div class="col-md-6 text-left">
+               Public code: {{selectedCourse?.passcode}}
+            </div>
+            <div class="col-md-6 text-right">
+               <button *ngIf="selectedCourse && selectedCourse!.id"
+                       [disabled]="!selectedCourse!.id || !inputCode.value || !selectUserTeam.value"
+                       (click)="joinCourse(selectedCourse!.id,inputCode.value,selectUserTeam.value)"
+                       class="btn btn-sm btn-success">Join
+               </button>
+            </div>
+         </div>
+      </mat-expansion-panel>
+   </div>
+</div>
+<div *ngIf="!publicContests" class="text-center my-5">
+   <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+   </div>
+   <p>Loading...</p>
+</div>
+
+<mat-dialog-actions align="end">
+   <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

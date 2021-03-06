@@ -1,0 +1,91 @@
+<script src="https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image"></script>
+<section class="content">
+   <div class="container-fluid">
+      <div class="block-header">
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               <ul class="breadcrumb breadcrumb-style ">
+                  <li class="breadcrumb-item">
+                     <h4 class="page-title">Classroom</h4>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-1">
+                     <a [routerLink]="['/home']">
+                        <i class="fas fa-home"></i> Home</a>
+                  </li>
+                  <li class="breadcrumb-item active"><a [routerLink]="['/account/dashboard']">Student Classroom
+                     Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item" *ngIf="courseSlug"><a
+                     [routerLink]="['/account/classroom',courseSlug]">{{courseSlug}}</a></li>
+                  <li class="breadcrumb-item" *ngIf="disciplineSlug"><a
+                     [routerLink]="['/account/classroom',courseSlug,'module',disciplineSlug]">{{disciplineSlug}}</a>
+                  </li>
+                  <li class="breadcrumb-item" *ngIf="topicSlug && routeSuffix === 'exercises'"><a
+                     [routerLink]="['/account/classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'exercises']">{{topicSlug}} (exercises)</a>
+                  </li>
+                  <li class="breadcrumb-item" *ngIf="topicSlug && routeSuffix === 'submissions'"><a
+                     [routerLink]="['/account/classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'submissions']">{{topicSlug}} (submissions)</a>
+                  </li>
+                  <li class="breadcrumb-item" *ngIf="exerciseSlug"><a
+                     [routerLink]="['/account/classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'exercise',exerciseSlug]">{{exerciseSlug}}</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <div class="row" *ngIf="this.userStorage?.id">
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+               <div class="card-body">
+                  <nav mat-tab-nav-bar>
+                     <a mat-tab-link
+                        [active]="(courseSlug && !disciplineSlug)?true:false"
+                        [routerLink]="[routePrefix,'classroom',courseSlug]"> Visão
+                        Geral </a>
+                     <a mat-tab-link [disabled]="!disciplineSlug"
+                        [active]="(courseSlug && disciplineSlug && !topicSlug)?true:false"
+                        [routerLink]="[routePrefix,'classroom',courseSlug,'module',disciplineSlug]">Topics</a>
+                     <a mat-tab-link [disabled]="!disciplineSlug || !topicSlug" *ngIf="!hasHighAccess"
+                        [active]="(routeSuffix === 'submissions' && topicSlug && !hasHighAccess)?true:false"
+                        [routerLink]="[routePrefix,'classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'submissions']">Topic
+                        submissions</a>
+                     <a mat-tab-link [disabled]="!disciplineSlug || !topicSlug"
+                        [active]="(routeSuffix === 'exercises' && topicSlug)?true:false"
+                        [routerLink]="[routePrefix,'classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'exercises']">Topic
+                        content</a>
+                     <a mat-tab-link [disabled]="!disciplineSlug || !topicSlug || !exerciseSlug"
+                        [active]="(exerciseSlug && topicSlug)?true:false"
+                        [routerLink]="[routePrefix,'classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'exercise',exerciseSlug]">Exercise
+                        content</a>
+                  </nav>
+                  <!--                     Course OverView-->
+                  <wok-course-overview *ngIf="courseId && !moduleId && courseSlug"
+                                       [courseId]="courseId" [hasHighAccess]="hasHighAccess" [routePrefix]="routePrefix"></wok-course-overview>
+                  <!--                     Topic List-->
+                  <wok-module-topic-list *ngIf="!topicId && moduleId && moduleId > 0"
+                                         [moduleId]="moduleId" [hasHighAccess]="hasHighAccess"></wok-module-topic-list>
+                  <!--                     Topic Historic-->
+<!--                  <wok-user-result *ngIf="routeSuffix === 'submissions' && topicSlug && accountService.isUser()"-->
+<!--                                   [moduleTopicId]="topicId" [hasHighAccess]="hasHighAccess"></wok-user-result>-->
+                  <!--                     Topic Content-->
+                  <wok-topic-content *ngIf="routeSuffix === 'exercises' && topicId && moduleId"
+                                     [topicId]="topicId" [moduleId]="moduleId"
+                                     [hasHighAccess]="hasHighAccess"></wok-topic-content>
+                  <!--                     Exercise Content-->
+                  <wok-exercise-content *ngIf="moduleId && topicId && exerciseId" [moduleId]="moduleId"
+                                        [topicId]="topicId"
+                                        [exerciseId]="exerciseId"
+                                        [hasHighAccess]="hasHighAccess"></wok-exercise-content>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row mt-5" *ngIf="!this.userStorage?.id">
+         <div class="col-10 m-auto text-center">
+            <img width="160" src="/src/assets/images/accessDenied.png">
+            <p class="card-text h6">Pelo visto você não possui acesso a esse curso</p>
+            <a href="#" class="btn btn-primary" [routerLink]="['/account/dashboard']">Voltar ao classroom</a>
+         </div>
+      </div>
+   </div>
+</section>

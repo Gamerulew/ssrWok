@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   gay: 'Mo gay kkkkkk',
-  NODE_ENV: `'sei la'`,
+  NODE_ENV: 'development',
   BUILD_TIMESTAMP: `'${new Date().getTime()}'`,
   VERSION: `'1'`,
   DEBUG_INFO_ENABLED: true,

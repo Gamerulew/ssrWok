@@ -1,0 +1,217 @@
+<div class="card">
+   <div class="header">
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
+         <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+         <button mat-menu-item (click)="getTeacherCourses(true);allTeachingCourse = !allTeachingCourse" *ngIf="!allTeachingCourse">
+            <mat-icon>wysiwyg</mat-icon>
+            <span>View all</span>
+         </button>
+         <button mat-menu-item (click)="getTeacherCourses(false);allTeachingCourse = !allTeachingCourse" *ngIf="allTeachingCourse">
+            <mat-icon>wysiwyg</mat-icon>
+            <span>View less</span>
+         </button>
+         <button mat-menu-item (click)="selected.setValue(0)" *ngIf="selected.value === 1">
+            <mat-icon>book</mat-icon>
+            <span>Private courses</span>
+         </button>
+         <button mat-menu-item (click)="selected.setValue(1)" *ngIf="selected.value === 0">
+            <mat-icon>menu_book</mat-icon>
+            <span>Public courses</span>
+         </button>
+         <button mat-menu-item (click)="openAddPrivateCourseDialog()">
+            <mat-icon>book</mat-icon>
+            <span>Add private course</span>
+         </button>
+         <button mat-menu-item (click)="openAddCourseDialog()">
+            <mat-icon>menu_book</mat-icon>
+            <span>Add public course</span>
+         </button>
+      </mat-menu>
+   </div>
+   <div class="body h-100">
+      <mat-tab-group dynamicHeight [selectedIndex]="selected.value"
+                     (selectedIndexChange)="selected.setValue($event)">
+         <mat-tab label="Meus Cursos">
+
+            <!--                  TEACHING COURSE-->
+
+            <mat-accordion class="example-headers-align">
+               <mat-expansion-panel *ngIf="sharedFunctions.isTeacher() && teacherCourses" [expanded]="true">
+                  <mat-expansion-panel-header>
+                     <mat-panel-title>
+                        Teaching
+                     </mat-panel-title>
+                     <mat-panel-description>
+                        {{teacherCourses!.length}} course(s)
+                        <mat-icon>book</mat-icon>
+                     </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="row" *ngIf="teacherCourses && teacherCourses.length > 0">
+                     <div class="col-md-4" *ngFor="let course of teacherCourses">
+                        <wok-grid-view-course [hasAdminAccess]="true" [course]="course"></wok-grid-view-course>
+                     </div>
+                  </div>
+                  <div class="row" *ngIf="teacherCourses && teacherCourses.length === 0">
+                     <div class="col-md-12 text-center">
+                        <img width="100"
+                             src="https://static.dribbble.com/users/5397717/screenshots/11840627/media/6b0c979ac19a84634925bdc1159a115c.jpg">
+                        <h6>No courses</h6>
+                     </div>
+                  </div>
+
+                  <div *ngIf="!teacherCourses" class="text-center my-5">
+                     <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                     </div>
+                     <p>Loading...</p>
+                  </div>
+               </mat-expansion-panel>
+
+               <!--                  PARTICIPATING COURSE-->
+
+               <mat-expansion-panel *ngIf="courses" [expanded]="accountService.isUser() && !accountService.isTeacher()">
+                  <mat-expansion-panel-header>
+                     <mat-panel-title>
+                        Participating
+                     </mat-panel-title>
+                     <mat-panel-description>
+                        {{courses!.length}} course(s)
+                        <mat-icon>school</mat-icon>
+                     </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="row" *ngIf="courses && courses.length > 0">
+                     <div class="col-md-4" *ngFor="let course of courses">
+                        <wok-grid-view-course [hasAdminAccess]="false" [course]="course"></wok-grid-view-course>
+                     </div>
+                     <div class="col-md-4 d-none d-md-block">
+                        <table style="height: 100%;">
+                           <tbody>
+                           <tr>
+                              <td class="align-middle horizontal-center">
+                                       <span><mat-icon style="font-size: 50px;cursor: pointer;"
+                                                       (click)="openAddPrivateCourseDialog()"
+                                                       aria-hidden="false">add_circle
+                                       </mat-icon></span>
+                              </td>
+                           </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="col-md-4 d-md-none text-center">
+                        <mat-icon style="font-size: 50px;cursor: pointer;"
+                                  (click)="openAddPrivateCourseDialog()"
+                                  aria-hidden="false">add_circle
+                        </mat-icon>
+                     </div>
+                  </div>
+                  <div class="col-12">
+                     <div class="text-center my-3" *ngIf="courses && courses.length === 0">
+                        <mat-icon style="font-size: 50px;cursor: pointer;" (click)="openAddPrivateCourseDialog()"
+                                  aria-hidden="false" aria-label="Example home icon">add_circle
+                        </mat-icon>
+                     </div>
+                  </div>
+                  <div *ngIf="!courses" class="text-center my-5">
+                     <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                     </div>
+                     <p>Loading...</p>
+                  </div>
+               </mat-expansion-panel>
+            </mat-accordion>
+         </mat-tab>
+         <mat-tab label="Meus Treinamentos">
+
+            <!--                  TEACHING TRAININGS-->
+
+            <mat-accordion class="example-headers-align">
+               <mat-expansion-panel *ngIf="sharedFunctions.isTeacher() && teacherTrainings" [expanded]="true">
+                  <mat-expansion-panel-header>
+                     <mat-panel-title>
+                        Teaching
+                     </mat-panel-title>
+                     <mat-panel-description>
+                        {{teacherTrainings!.length}} training(s)
+                        <mat-icon>book</mat-icon>
+                     </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="row" *ngIf="teacherTrainings && teacherTrainings.length > 0">
+                     <div class="col-md-4" *ngFor="let course of teacherTrainings">
+                        <wok-grid-view-course [hasAdminAccess]="true" [course]="course"></wok-grid-view-course>
+                     </div>
+                  </div>
+                  <div class="row" *ngIf="teacherTrainings && teacherTrainings.length === 0">
+                     <div class="col-md-12 text-center">
+                        <img width="100"
+                             src="https://static.dribbble.com/users/5397717/screenshots/11840627/media/6b0c979ac19a84634925bdc1159a115c.jpg">
+                        <h6>No trainings</h6>
+                     </div>
+                  </div>
+                  <div *ngIf="!teacherTrainings" class="text-center my-5">
+                     <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                     </div>
+                     <p>Loading...</p>
+                  </div>
+               </mat-expansion-panel>
+
+               <!--                  PARTICIPATING TRAININGS-->
+
+               <mat-expansion-panel *ngIf="trainings"
+                                    [expanded]="accountService.isUser() && !accountService.isTeacher()">
+                  <mat-expansion-panel-header>
+                     <mat-panel-title>
+                        Participating
+                     </mat-panel-title>
+                     <mat-panel-description>
+                        {{trainings!.length}} training(s)
+                        <mat-icon>school</mat-icon>
+                     </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="row my-3" *ngIf="trainings && trainings.length > 0">
+                     <div class="col-md-4" *ngFor="let training of trainings">
+                        <wok-grid-view-course [hasAdminAccess]="false" [course]="training"></wok-grid-view-course>
+                     </div>
+                     <div class="col-md-4 d-none d-md-block">
+                        <table style="height: 100%;">
+                           <tbody>
+                           <tr>
+                              <td class="align-middle horizontal-center">
+                                 <mat-icon style="font-size: 50px;cursor: pointer;"
+                                           (click)="openAddCourseDialog()"
+                                           aria-hidden="false">add_circle
+                                 </mat-icon>
+                              </td>
+                           </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="col-md-4 d-md-none text-center">
+                        <mat-icon style="font-size: 50px;cursor: pointer;"
+                                  (click)="openAddCourseDialog()"
+                                  aria-hidden="false">add_circle
+                        </mat-icon>
+                     </div>
+                  </div>
+                  <div class="col-12">
+                     <div class="text-center my-3" *ngIf="trainings && trainings.length === 0">
+                        <mat-icon style="font-size: 50px;cursor: pointer;" (click)="openAddCourseDialog()"
+                                  aria-hidden="false" aria-label="Example home icon">add_circle
+                        </mat-icon>
+                     </div>
+                  </div>
+                  <div *ngIf="!trainings" class="text-center my-5">
+                     <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                     </div>
+                     <p>Loading...</p>
+                  </div>
+               </mat-expansion-panel>
+            </mat-accordion>
+         </mat-tab>
+      </mat-tab-group>
+   </div>
+</div>
+

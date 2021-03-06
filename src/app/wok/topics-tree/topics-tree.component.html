@@ -1,0 +1,70 @@
+<div class="row">
+   <div class="col-12 col-lg-10">
+      <ul class="left-timeline" *ngFor="let moduleTopicLevel of topicByLevel; let i = index">
+         <li>
+            <time datetime="2017-11-04T03:45" class="left-time"><span>Level {{i + 1}}</span></time>
+            <div class="left-icon">{{i + 1}}</div>
+            <div class="left-label">
+               <h2></h2>
+               <div class="row text-center" *ngIf="moduleTopicLevel && moduleTopicLevel.length > 0">
+                  <div class="col-6 col-md-3 my-1" *ngFor="let topicModule of moduleTopicLevel"
+                       [routerLink]="(routePrefix && redirect && dateStartCompare(topicModule?.startTime,topicModule?.endTime))?[routePrefix,topicModule?.topic?.slug,'exercises']:[]"
+                       (click)="!accountService.isAuthenticated()?openDialog():undefined;(hasHighAccess===undefined && accountService.isAuthenticated())?openAddCourseDialog(courseId):undefined;">
+                     <ng-template #popContent>
+                        <div class="col-6" *ngIf="sharedFunctions.isAdmin()">
+                           <div class="text-center"><b><span style="color: green">Active time:
+                                            </span></b>{{topicModule?.activeTime | date:'dd/MM/yyyy H:MM'}}
+                           </div>
+                           <div class="text-center"><b><span style="color: red">Deactive time:
+                                            </span></b>{{topicModule?.deactiveTime | date:'dd/MM/yyyy H:MM'}}
+                           </div>
+                        </div>
+                        <div class="text-center"><b><span style="color: green">Min score:
+                                            </span></b>{{topicModule?.minScore}}
+                        </div>
+                        <hr>
+                        <div class="text-center"><b><span style="color: green">Start time:
+                                            </span></b>{{topicModule?.startTime | date:'dd/MM/yyyy H:MM'}}
+                        </div>
+                        <div class="text-center"><b><span style="color: red">End time:
+                                            </span></b>{{topicModule?.endTime | date:'dd/MM/yyyy H:MM'}}
+                        </div>
+                     </ng-template>
+                     <ng-template
+                        #popTitle>{{topicModule!.topic!.name ? topicModule!.topic!.name : 'Sem Nome'}}</ng-template>
+                     <div style="cursor: pointer;" class="text-center" [ngbPopover]="popContent"
+                          triggers="mouseenter:mouseleave" [popoverTitle]="popTitle" placement="left">
+
+                        <img *ngIf="topicModule.topic.imageUrl" width="40" height="40"
+                             [src]="sharedFunctions.imageDir+topicModule.topic.imageUrl">
+
+                        <div *ngIf="completeTree && !verifyInvalidData(topicModule)">
+                           {{topicModule.topic.name}}
+                           <span *ngIf="dateStartCompare(topicModule?.startTime,topicModule?.endTime)">
+                                <h5><span class="badge badge-success">Opened</span></h5>
+                            </span>
+                           <span *ngIf="dateEndCompare(topicModule?.endTime)">
+                                <h5><span class="badge badge-danger">Closed</span></h5>
+                            </span>
+                           <h5
+                              *ngIf="!dateStartCompare(topicModule?.startTime,topicModule?.endTime) && !dateEndCompare(topicModule?.endTime)">
+                              <span
+                                 class="badge badge-info">Start {{convertData(topicModule?.startTime) |date:'dd/MM H:mm'}}</span>
+                           </h5>
+                        </div>
+                        <div class="pending" *ngIf="completeTree && verifyInvalidData(topicModule)">
+                           <h5><span class="badge badge-secondary">Invalid data</span></h5>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="text-center" *ngIf="!moduleTopicLevel || moduleTopicLevel.length === 0">
+                  <img width="100"
+                       src="/src/assets/images/search.png">
+                  <h6>No topics</h6>
+               </div>
+            </div>
+         </li>
+      </ul>
+   </div>
+</div>

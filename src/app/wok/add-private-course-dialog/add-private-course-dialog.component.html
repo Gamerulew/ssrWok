@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Join a course</h1>
+<div mat-dialog-content>
+
+
+   <div class="row">
+      <div class="col-12 my-2">
+         Enter your team and course code
+         <div class="row my-2">
+            <div class="col-6">
+               <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Codigo</mat-label>
+                  <input matInput #inputCode>
+               </mat-form-field>
+            </div>
+            <div class="col-6">
+               <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>User team</mat-label>
+                  <mat-select required #selectUserTeam>
+                     <mat-option>Select a user team</mat-option>
+                     <mat-option *ngFor="let userTeam of userTeams" [value]="userTeam?.id">
+                        {{userTeam?.team?.name}}</mat-option>
+                  </mat-select>
+               </mat-form-field>
+            </div>
+         </div>
+         <!--            <hr>-->
+         <!--            <div class="row">-->
+         <!--               <div class="col-md-12 text-right">-->
+         <!--                  <button-->
+         <!--                          [disabled]="!inputCode.value || !selectUserTeam.value"-->
+         <!--                          (click)="joinCourse(inputCode.value,selectUserTeam.value)"-->
+         <!--                          class="btn btn-sm btn-success">Join-->
+         <!--                  </button>-->
+         <!--               </div>-->
+         <!--            </div>-->
+      </div>
+   </div>
+</div>
+<mat-dialog-actions align="end">
+   <button mat-button mat-dialog-close>Close</button>
+   <button mat-button cdkFocusInitial [disabled]="!inputCode.value || !selectUserTeam.value"
+           (click)="joinCourse(inputCode.value,selectUserTeam.value)">Join
+   </button>
+</mat-dialog-actions>

@@ -1,0 +1,98 @@
+<div class="m-t-10">
+   <div class="row">
+      <div class="col-12 col-xl-8">
+         <div class="text-justify text-dark p-3 border" id="html" *ngIf="selectedTopicContent"
+              [innerHTML]="selectedTopicContent.html"></div>
+
+         <div class="text-center my-3" *ngIf="!selectedTopicContent">
+            <img width="100"
+                 src="https://static.dribbble.com/users/5397717/screenshots/11840627/media/6b0c979ac19a84634925bdc1159a115c.jpg">
+            <h6>Topic content was not found</h6>
+
+         </div>
+      </div>
+      <div class="col-12 col-xl-4">
+         <div class="table-responsive sticky-top" style="top: 100px;">
+            <table mat-table [dataSource]="userResults || []" class="width-full"
+                   style="min-width:0px !important;"
+                   *ngIf="(userResults && userResults!.length > 0) && !hasHighAccess">
+
+               <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Exercises</th>
+                  <td mat-cell *matCellDef="let element"> {{element!.nameExercise}} </td>
+               </ng-container>
+
+               <ng-container matColumnDef="difficulty">
+                  <th mat-header-cell *matHeaderCellDef> Difficulty</th>
+                  <td mat-cell *matCellDef="let element"><span
+                     class="badge badge-sm badge-{{getDifficultyColor(element?.difficultyLevelId)}}"> {{element?.difficultyLevelId}} </span>
+                  </td>
+               </ng-container>
+
+               <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> Status</th>
+                  <td mat-cell *matCellDef="let element">
+                           <span *ngIf="!element?.submitTime"
+                                 class="badge badge-sm badge-secondary">No submissions</span>
+                     <span *ngIf="element?.idRunResult && element?.submitTime"
+                           class="badge badge-sm badge-secondary">oi</span>
+                     <!--                     - {{element?.cacheResultTopic}}-->
+                  </td>
+               </ng-container>
+
+               <ng-container matColumnDef="buttons">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let element">
+                     <button mat-raised-button color="primary" class="m-1 m-md-0" *ngIf="element!.id!==0"
+                             [routerLink]="[routePrefix,'classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'exercise',element?.slugExercise]">
+                        <span>Abrir</span>
+                        <mat-icon>topic</mat-icon>
+                     </button>
+                  </td>
+               </ng-container>
+
+               <tr mat-header-row *matHeaderRowDef="['name', 'difficulty','status','buttons']"></tr>
+               <tr mat-row *matRowDef="let row; columns: ['name', 'difficulty','status','buttons'];"></tr>
+            </table>
+            <table mat-table [dataSource]="exercises || []" class="mat-elevation-z1 width-full"
+                   *ngIf="(exercises && exercises!.length > 0) && hasHighAccess">
+               <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Exercises</th>
+                  <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+               </ng-container>
+
+               <ng-container matColumnDef="difficulty">
+                  <th mat-header-cell *matHeaderCellDef> Difficulty</th>
+                  <td mat-cell *matCellDef="let element"><span
+                     class="badge badge-sm badge-{{getDifficultyColor(element?.difficultyLevelId)}}"> {{element?.difficultyLevelId}} </span>
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="buttons">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let element">
+                     <div class="row text-right">
+                        <div class="col-12">
+                           <button mat-stroked-button color="basic" class="m-1 m-md-0" *ngIf="element!.id!==0"
+                                   [routerLink]="[routePrefix,'classroom',courseSlug,'module',disciplineSlug,'topic',topicSlug,'exercise',element?.slug]">
+                              <span>Abrir</span>
+                              <mat-icon>menu_book</mat-icon>
+                           </button>
+                        </div>
+                     </div>
+                  </td>
+               </ng-container>
+               <tr mat-header-row *matHeaderRowDef="['name', 'difficulty','buttons']"></tr>
+               <tr mat-row *matRowDef="let row; columns: ['name', 'difficulty','buttons'];"></tr>
+            </table>
+            <wok-not-found-msg *ngIf="(!userResults || userResults.length === 0) && !hasHighAccess"
+                               message="Exercises was not found"></wok-not-found-msg>
+            <wok-not-found-msg *ngIf="(!exercises || exercises.length === 0) && hasHighAccess"
+                               message="Exercises was not found"></wok-not-found-msg>
+         </div>
+      </div>
+   </div>
+
+   <!-- <div><button mat-raised-button color="primary" class="float-right m-5" (click)="selectTopic(selectedTopicContent.id!)" style="width: fit-content;">See exercises</button></div> -->
+
+
+</div>

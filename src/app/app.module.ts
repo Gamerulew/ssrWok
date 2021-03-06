@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-import {HashLocationStrategy, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {DynamicScriptLoaderService} from './shared/services/dynamic-script-loader.service';
 
 import {RightSidebarService} from './shared/services/rightsidebar.service';

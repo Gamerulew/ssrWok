@@ -40,10 +40,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
   imports: [
     CommonModule,
     WokSharedModule,
-    WokMatSharedModule,
     WokUserSharedLibsModule,
-    MatFormFieldModule,
-    FormsModule,
     ReactiveFormsModule,
     SocialLoginModule,
     NgxMaskModule.forRoot(maskConfigFunction),

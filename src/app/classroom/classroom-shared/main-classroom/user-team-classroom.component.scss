@@ -1,0 +1,44 @@
+.color-black {
+  color: #000;
+}
+
+.course-header {
+  border-radius: 10px 10px 0px 0px;
+  min-height: 200px;
+  color: #fff;
+}
+
+.teacher-img {
+  border-radius: 10px;
+  max-width: 280px;
+  margin-top: -100px;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  float: right;
+  margin-right: 50px;
+  width: 70%;
+}
+
+.teacher-text-div {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+  float: left;
+}
+
+@media (max-width: 767px) {
+  .responsive-img {
+    margin: -70px 15% 0px 15%;
+    max-width: fit-content;
+  }
+  .responsive-text {
+    text-align: center;
+  }
+  .responsive-div {
+    margin: auto;
+    float: none;
+  }
+}
+
+.width-full {
+  width: 100%;
+}

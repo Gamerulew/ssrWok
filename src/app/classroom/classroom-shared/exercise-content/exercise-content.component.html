@@ -1,0 +1,23 @@
+<div class="container-fluid m-t-10 m-b-20">
+   <div class="row">
+      <div class="col-12 col-lg-8">
+         <div class="row m-3">
+            <div class="col-12 text-right">
+               <button mat-raised-button color="primary" (click)="openUploadSubmissionDialog()">
+                  Upload de exercício
+                  <mat-icon>backup</mat-icon>
+               </button>
+            </div>
+         </div>
+         <div class="rounded m-md-5 text-justify border" id="html" *ngIf="selectedModuleTopicExercise!.statement!.html"
+              [innerHTML]="selectedModuleTopicExercise!.statement!.html">
+         </div>
+      </div>
+      <div class="col-12 col-lg-4 sticky-top" style="top: 100px;">
+         <div class="m-5 my-2">
+            <wok-submission-list-grid *ngIf="params" [params]="params" authority="USER"></wok-submission-list-grid>
+         </div>
+      </div>
+   </div>
+
+</div>

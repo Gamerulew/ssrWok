@@ -1,0 +1,310 @@
+<div class="row mt-2">
+   <div class="col-xl-4 col-md-12">
+      <div class="card">
+         <div class="m-b-20">
+            <div class="contact-grid">
+               <div class="profile-header bg-dark">
+                  <!--                        <div class="name-center">-->
+                  <!--                           <div class="badge">Level 101</div>-->
+                  <!--                        </div>-->
+               </div>
+               <img
+                  [src]="course?.teacher?.imageUrl?sharedFunctions.imageDir+course?.teacher?.imageUrl:'https://www.bdbpitmans.com/wp-content/uploads/placeholder-profile.png'"
+                  class="user-img" alt="" matBadge="15" matBadgeColor="warn">
+               <div class="user-name">{{ course?.name }}</div>
+               <div>
+                  {{ course === undefined ? "No Name" : course!.teacher!.login}}
+               </div>
+               <span
+                  class="text-center text-muted"><small>{{ course === undefined ? "No affiliated" : course.affiliation!.name }}</small>
+
+                      </span>
+               <!--                        <div class="row mt-4">-->
+               <!--                           <div class="col-4">-->
+               <!--                              <h5>1</h5>-->
+               <!--                              <small>Skill Score</small>-->
+               <!--                           </div>-->
+               <!--                           <div class="col-4">-->
+               <!--                              <h5>2</h5>-->
+               <!--                              <small>Exercise Score</small>-->
+               <!--                           </div>-->
+               <!--                           <div class="col-4">-->
+               <!--                              <h5>3</h5>-->
+               <!--                              <small>Submissions</small>-->
+               <!--                           </div>-->
+               <!--                        </div>-->
+            </div>
+         </div>
+      </div>
+      <div class="card">
+         <div class="card-body">
+            <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+               <mat-tab label="Modules">
+                  <div class="table-responsive mt-2" style="max-height: 400px; overflow: auto">
+                     <table *ngIf="course !== undefined" mat-table [dataSource]="course.modules || []"
+                            class="mat-elevation-z1 width-full" style="min-width:100% !important;">
+
+                        <ng-container matColumnDef="name">
+                           <th mat-header-cell *matHeaderCellDef></th>
+                           <td mat-cell *matCellDef="let element"> {{element!.alias}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="buttons">
+                           <th mat-header-cell *matHeaderCellDef></th>
+                           <td mat-cell *matCellDef="let element">
+                              <div class="row text-right">
+                                 <div class="col-12">
+                                    <button mat-stroked-button *ngIf="hasHighAccess" class="m-1"
+                                            [routerLink]="['/teacher/classroom',courseSlug,'module', element?.discipline?.slug, 'manager']">
+                                       Manager
+                                    </button>
+                                    <button mat-raised-button color="primary" class="m-1"
+                                            [routerLink]="[routePrefix,'classroom',courseSlug,'module',element?.discipline?.slug]">
+                                       <span>Topics</span>
+                                       <mat-icon>topic</mat-icon>
+                                    </button>
+                                 </div>
+                              </div>
+
+                           </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="['name', 'buttons']"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['name', 'buttons'];"></tr>
+                     </table>
+                  </div>
+
+
+               </mat-tab>
+            </mat-tab-group>
+         </div>
+      </div>
+   </div>
+   <div class="col-xl-8 col-md-12 my-2 my-xl-0">
+      <div class="card">
+         <div class="card-body">
+            <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)"
+                           (selectedTabChange)="selectedTabChange($event)">
+<!--               <mat-tab label="Students">-->
+<!--                  <wok-students-list-grid *ngIf="course && registrations" [registrations]="registrations"></wok-students-list-grid>-->
+<!--               </mat-tab>-->
+               <mat-tab label="Students results" *ngIf="accountService.isTeacher() && hasHighAccess">
+                  <mat-form-field appearance="outline">
+                     <mat-label>User</mat-label>
+                     <mat-select #selectModule placeholder="Select a user..." [(ngModel)]="selectedUser"
+                                 (selectionChange)="transpositionToUser()">
+                        <mat-option [value]="-1">All</mat-option>
+                        <mat-option [value]="registration?.userTeam?.user?.id"
+                                    *ngFor="let registration of registrations">{{registration?.userTeam?.user?.login}}</mat-option>
+                     </mat-select>
+
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                     <mat-label>Module</mat-label>
+                     <mat-select #selectModule placeholder="Select a module..." [value]="selectedModule"
+                                 (selectionChange)="getReportResultsByModule(selectModule.value)">
+                        <mat-option [value]="module?.id"
+                                    *ngFor="let module of course?.modules">{{module?.alias}}</mat-option>
+                     </mat-select>
+
+                  </mat-form-field>
+                  <button mat-icon-button (click)="showTransposition = !showTransposition"
+                          *ngIf="showTransposition" matTooltip="Show students by topics">
+                     <mat-icon>book</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="showTransposition = !showTransposition"
+                          *ngIf="!showTransposition" matTooltip="Show topics by students">
+                     <mat-icon>face</mat-icon>
+                  </button>
+                  <div *ngIf="!showTransposition">
+                     <small>Serão exibidos somente os topics que possuem submissões</small>
+                  </div>
+                  <div *ngIf="!verifyReportResultEmpty() && showTransposition"
+                       style="max-height: 550px; overflow-y: auto;overflow-x: hidden;">
+                     <div class="my-2" *ngFor="let reportResultArray of moduleReportResultT">
+                        <div *ngIf="reportResultArray && reportResultArray.length > 0">
+                           <div class="card">
+                                    <div class="card-header">
+                                 <span class="pull-left mr-3">
+                                 <img class="img-circle mr-1" width="40"
+                                      *ngIf="reportResultArray[0]?.user?.imageUrl"
+                                      [src]="sharedFunctions.imageDir+reportResultArray[0]?.user?.imageUrl">
+                                 <img class="img-circle" width="40" *ngIf="!reportResultArray[0]?.user?.imageUrl"
+                                      src="https://www.bdbpitmans.com/wp-content/uploads/placeholder-profile.png">
+                                 </span>
+                                       <h6>{{reportResultArray[0]?.user?.login}}</h6>
+                                       <small>{{reportResultArray[0]?.user?.email}}</small>
+                                    </div>
+                              <div class="card-body">
+                                 <div class="row">
+                                    <div class="col-12">
+
+                                       <table mat-table [dataSource]="reportResultArray" class="mat-elevation-z1"
+                                              style="width: 100%;">
+
+                                          <!-- Position Column -->
+                                          <ng-container matColumnDef="topic">
+                                             <th mat-header-cell *matHeaderCellDef> Topic</th>
+                                             <td mat-cell *matCellDef="let element"><img class="img-circle" width="25"
+                                                                                         [src]="sharedFunctions.imageDir+element?.topic?.imageUrl">  {{element?.topic?.name}}
+                                             </td>
+                                          </ng-container>
+
+
+                                          <ng-container matColumnDef="S/M/T">
+                                             <th mat-header-cell *matHeaderCellDef> Student score / target score / Max
+                                                score
+                                             </th>
+                                             <td mat-cell *matCellDef="let element" class="text-center">
+                                                <span class="badge badge-sm">{{element?.point}}
+                                                   / {{element?.targetScore}} / {{element?.maxGrade}}</span>
+                                             </td>
+                                          </ng-container>
+                                          <ng-container matColumnDef="exercisesA">
+                                             <th mat-header-cell *matHeaderCellDef> Exercises A</th>
+                                             <td mat-cell *matCellDef="let element">
+                                                <span class="badge badge-success"></span>
+                                             </td>
+                                          </ng-container>
+                                          <ng-container matColumnDef="exercisesB">
+                                             <th mat-header-cell *matHeaderCellDef> Exercises B</th>
+                                             <td mat-cell *matCellDef="let element">
+                                                <span class="badge badge-info">{{element?.numBresolved}}
+                                                   /{{element?.numB}}</span>
+                                             </td>
+                                          </ng-container>
+                                          <ng-container matColumnDef="exercisesC">
+                                             <th mat-header-cell *matHeaderCellDef> Exercises C</th>
+                                             <td mat-cell *matCellDef="let element">
+                                                <span class="badge badge-warning">{{element?.numCresolved}}
+                                                   /{{element?.numC}}</span>
+                                             </td>
+                                          </ng-container>
+                                          <ng-container matColumnDef="exercisesD">
+                                             <th mat-header-cell *matHeaderCellDef> Exercises D</th>
+                                             <td mat-cell *matCellDef="let element">
+                                                <span class="badge badge-danger">{{element?.numDresolved}}
+                                                   /{{element?.numD}}</span>
+                                             </td>
+                                          </ng-container>
+                                          <tr mat-header-row
+                                              *matHeaderRowDef="['topic','S/M/T','exercisesA','exercisesB','exercisesC','exercisesD']"></tr>
+                                          <tr mat-row
+                                              *matRowDef="let row; columns: ['topic','S/M/T','exercisesA','exercisesB','exercisesC','exercisesD'];"></tr>
+                                       </table>
+
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div *ngIf="!verifyReportResultEmpty() && !showTransposition">
+                     <div class="row my-2" *ngFor="let reportResultArray of moduleReportResult">
+                        <div class="col-12" *ngIf="reportResultArray && reportResultArray.length > 0">
+                           <div class="card">
+                              <div class="card-header">
+                                 <span class="pull-left mr-3">
+                                    <img class="img-circle mr-1" width="40"
+                                         *ngIf="reportResultArray[0]?.topic?.imageUrl"
+                                         [src]="sharedFunctions.imageDir+reportResultArray[0]?.topic?.imageUrl">
+                                 </span>
+                                 <h6>{{reportResultArray[0]?.topic?.name}}</h6>
+                              </div>
+                              <div class="card-body">
+                                 <div class="row">
+                                    <div class="col-md-4" *ngFor="let reportResult of reportResultArray">
+                                       <div class="card">
+                                          <div class="card-body">
+                                             <div class="post-user mt-3">
+                                  <span class="pull-left mr-3">
+                                      <img class="img-circle" width="40" *ngIf="reportResult?.user?.imageUrl"
+                                           [src]="sharedFunctions.imageDir+reportResult?.user?.imageUrl" alt="">
+                                     <img class="img-circle" width="40" *ngIf="!reportResult?.user?.imageUrl"
+                                          src="https://www.bdbpitmans.com/wp-content/uploads/placeholder-profile.png">
+                                  </span>
+                                                <h6 class="mb-xs mt-xs">Student: {{reportResult.user?.login}}</h6>
+                                                <p class="text-muted">
+                                                   <time>Topic: {{reportResult.topic?.name}}</time>
+                                                </p>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-12">
+                                                   Max score: {{reportResult?.maxGrade}}
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-12">
+                                                   Target score : {{reportResult?.targetScore}}
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-12">
+                                                   Student score: {{reportResult?.point}}
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-12">
+                                                   <small class="text-muted">Student
+                                                      contact: {{reportResult?.user?.email}}</small>
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-12">
+                                                   <button class="btn btn-sm btn-info"
+                                                           *ngIf="reportResult?.idModuleTopic"
+                                                           (click)="openDialog(reportResult.idModuleTopic,reportResult?.user?.id)">
+                                                      View details
+                                                   </button>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <footer [ngClass]="verify(reportResult)?'bg-success':'bg-yellow'">
+                                             <ul class="post-links no-separator">
+                                                <li>
+                                                </li>
+                                             </ul>
+                                          </footer>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  </div>
+                        <div class="text-center" *ngIf="verifyReportResultEmpty()">
+                           <img width="100"
+                                src="https://static.dribbble.com/users/5397717/screenshots/11840627/media/6b0c979ac19a84634925bdc1159a115c.jpg">
+                           <h6>No topics with submissions</h6>
+                        </div>
+               </mat-tab>
+
+               <mat-tab label="Students rankings">
+                        <div style="max-height: 550px; overflow-y: auto;overflow-x: hidden;">
+<!--                        <wok-user-rank-grid [hidden]="!((selected.value === 1 && hasHighAccess) || (selected.value === 0 && !hasHighAccess))" [id]="courseId"-->
+<!--                                            rankFor="course"></wok-user-rank-grid>-->
+                        </div>
+               </mat-tab>
+            </mat-tab-group>
+         </div>
+      </div>
+
+   </div>
+</div>
+<!--         <div class="contact-grid">-->
+<!--            <div class="course-header bg-dark"></div>-->
+<!--            <img [src]="!teacherImgError?sharedFunctions.imageDir+course?.teacher?.imageUrl:'https://i.pinimg.com/280x280_RS/25/47/e7/2547e7e1fe3a76f60a278502b914b39c.jpg'" (error)="teacherImgError = true;" alt=""-->
+<!--                 class="teacher-img responsive-img bg-white">-->
+<!--            &lt;!&ndash; <img src="{{sharedFunctions.imageDir + course!.teacher!.imageUrl}}" alt="" class="teacher-img"> &ndash;&gt;-->
+<!--            <div class="teacher-text-div responsive-div">-->
+<!--               <h3 class="align-left responsive-text">Course {{course?.name}}</h3>-->
+<!--               <h6-->
+<!--                  class="align-left responsive-text">{{ course === undefined ? "No Name" : course!.teacher!.login}}</h6>-->
+
+<!--               <p class="align-left text-muted responsive-text"><small class="text-muted">Afilietted-->
+<!--                  to {{ course === undefined ? "No affiliated" : course.affiliation!.name }}</small></p>-->
+<!--            </div>-->
+<!--         </div>-->
+

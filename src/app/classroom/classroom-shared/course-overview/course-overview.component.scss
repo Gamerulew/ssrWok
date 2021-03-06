@@ -1,0 +1,48 @@
+.color-black {
+  color: #000;
+}
+
+.course-header {
+  border-radius: 10px 10px 0px 0px;
+  min-height: 150px;
+  color: #fff;
+}
+
+.teacher-img {
+  border-radius: 7px;
+  max-width: 110px;
+  margin-top: -50px;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  float: right;
+  margin-right: 50px;
+  width: 70%;
+}
+.teacher-text-div {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+  float: left;
+}
+
+@media (max-width: 767px) {
+  .responsive-img {
+    margin: -70px 35% 0px 35%;
+    max-width: fit-content;
+    width: 30%;
+  }
+  .responsive-text {
+    text-align: center;
+  }
+  .responsive-div {
+    margin: auto;
+    float: none;
+  }
+}
+
+.width-full {
+  width: 100%;
+}
+.example-header-image {
+  background-image: url('https://icons-for-free.com/iconfiles/png/512/page+quality+rank+icon-1320190816917337266.png');
+  background-size: cover;
+}
