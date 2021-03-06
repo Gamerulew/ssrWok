@@ -11,7 +11,9 @@
     "dev:ssr": "ng run wok:serve-ssr",
     "serve:ssr": "node dist/wok/server/main.js",
     "build:ssr": "ng build --prod && ng run wok:server:production",
-    "prerender": "ng run wok:prerender"
+    "prerender": "ng run wok:prerender",
+    "start:heroku":"node dist/wok/server/main.js"
+    "postinstall":"npm run build:ssr"
   },
   "private": true,
   "dependencies": {
